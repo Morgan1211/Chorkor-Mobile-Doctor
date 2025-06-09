@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Chorkor Mobile Doctor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A73E8;
+            --secondary: #34A853;
+            --bg: #F9FAFF;
+            --text-dark: #333333;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='index.html'">
+        <span class="material-icons">arrow_back</span>
+    </button>
+
+    <header class="header">
+        <img src="images/home/logo.svg" alt="Chorkor Mobile Doctor" class="logo">
+        <h1>About Chorkor Mobile Doctor</h1>
+        <p>Your trusted healthcare companion in the digital age</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>Our Mission</h2>
+            <p>Chorkor Mobile Doctor is dedicated to making healthcare accessible, affordable, and convenient for everyone. We believe that quality healthcare should be just a tap away.</p>
+        </section>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <span class="material-icons feature-icon">medical_services</span>
+                <h3>24/7 Medical Support</h3>
+                <p>Access to qualified healthcare professionals anytime, anywhere. Get medical advice, prescriptions, and follow-up care through our secure platform.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="material-icons feature-icon">local_pharmacy</span>
+                <h3>Mobile Pharmacy</h3>
+                <p>Order your medications online and get them delivered to your doorstep. We partner with licensed pharmacies to ensure quality and authenticity.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="material-icons feature-icon">health_and_safety</span>
+                <h3>Health Tracking</h3>
+                <p>Monitor your vital signs, track your medications, and maintain your health records all in one place. Get personalized health insights and recommendations.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="material-icons feature-icon">psychology</span>
+                <h3>AI-Powered Diagnostics</h3>
+                <p>Our advanced AI system helps in preliminary diagnosis and provides health recommendations based on your symptoms and medical history.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="material-icons feature-icon">groups</span>
+                <h3>Community Support</h3>
+                <p>Connect with other users, share experiences, and get support from our healthcare community. Join health awareness programs and workshops.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="material-icons feature-icon">security</span>
+                <h3>Secure & Private</h3>
+                <p>Your health data is encrypted and protected. We follow strict privacy guidelines to ensure your information remains confidential.</p>
+            </div>
+        </div>
+
+        <section>
+            <h2>Why Choose Us?</h2>
+            <p>Chorkor Mobile Doctor combines cutting-edge technology with compassionate healthcare to provide you with the best possible medical experience. Our platform is designed to be user-friendly, secure, and efficient, ensuring that you get the care you need when you need it.</p>
+            
+            <a href="index.html" class="cta-button">Get Started Today</a>
+        </section>
+    </div>
+</body>
+</html> 

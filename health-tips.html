@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tips & Diet Advice - Chorkor Mobile Doctor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A73E8;
+            --secondary: #34A853;
+            --bg: #F9FAFF;
+            --text-dark: #333333;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+
+        .tip-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .tip-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tip-list li:before {
+            content: "•";
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='index.html'">
+        <span class="material-icons">arrow_back</span>
+    </button>
+
+    <header class="header">
+        <img src="images/home/logo.svg" alt="Chorkor Mobile Doctor" class="logo">
+        <h1>Health Tips & Diet Advice</h1>
+        <p>Your guide to a healthier lifestyle</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>Daily Health Tips</h2>
+            <p>Small changes in your daily routine can lead to significant improvements in your health. Here are some essential tips to help you stay healthy:</p>
+        </section>
+
+        <div class="tips-grid">
+            <div class="tip-card">
+                <span class="material-icons tip-icon">water_drop</span>
+                <h3>Stay Hydrated</h3>
+                <ul class="tip-list">
+                    <li>Drink at least 8 glasses of water daily</li>
+                    <li>Carry a water bottle with you</li>
+                    <li>Drink water before meals</li>
+                    <li>Limit caffeine and alcohol intake</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="material-icons tip-icon">fitness_center</span>
+                <h3>Regular Exercise</h3>
+                <ul class="tip-list">
+                    <li>30 minutes of moderate exercise daily</li>
+                    <li>Mix cardio and strength training</li>
+                    <li>Take regular breaks from sitting</li>
+                    <li>Find activities you enjoy</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="material-icons tip-icon">bedtime</span>
+                <h3>Quality Sleep</h3>
+                <ul class="tip-list">
+                    <li>7-8 hours of sleep each night</li>
+                    <li>Maintain a regular sleep schedule</li>
+                    <li>Create a relaxing bedtime routine</li>
+                    <li>Keep your bedroom dark and quiet</li>
+                </ul>
+            </div>
+        </div>
+
+        <section>
+            <h2>Healthy Diet Guidelines</h2>
+            <p>A balanced diet is crucial for maintaining good health. Here are some key dietary recommendations:</p>
+        </section>
+
+        <div class="tips-grid">
+            <div class="tip-card">
+                <span class="material-icons tip-icon">restaurant</span>
+                <h3>Balanced Meals</h3>
+                <ul class="tip-list">
+                    <li>Include protein, carbs, and healthy fats</li>
+                    <li>Eat plenty of fruits and vegetables</li>
+                    <li>Choose whole grains over refined grains</li>
+                    <li>Practice portion control</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="material-icons tip-icon">nutrition</span>
+                <h3>Smart Snacking</h3>
+                <ul class="tip-list">
+                    <li>Choose nuts and seeds</li>
+                    <li>Opt for fresh fruits</li>
+                    <li>Include protein-rich snacks</li>
+                    <li>Stay away from processed foods</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="material-icons tip-icon">warning</span>
+                <h3>Foods to Limit</h3>
+                <ul class="tip-list">
+                    <li>Reduce sugar intake</li>
+                    <li>Limit processed foods</li>
+                    <li>Cut back on salt</li>
+                    <li>Avoid trans fats</li>
+                </ul>
+            </div>
+        </div>
+
+        <section>
+            <h2>Mental Health Tips</h2>
+            <p>Taking care of your mental health is just as important as physical health:</p>
+        </section>
+
+        <div class="tips-grid">
+            <div class="tip-card">
+                <span class="material-icons tip-icon">self_improvement</span>
+                <h3>Stress Management</h3>
+                <ul class="tip-list">
+                    <li>Practice deep breathing</li>
+                    <li>Try meditation or yoga</li>
+                    <li>Take regular breaks</li>
+                    <li>Maintain work-life balance</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="material-icons tip-icon">groups</span>
+                <h3>Social Connection</h3>
+                <ul class="tip-list">
+                    <li>Stay connected with loved ones</li>
+                    <li>Join community activities</li>
+                    <li>Share your feelings</li>
+                    <li>Help others when possible</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="material-icons tip-icon">psychology</span>
+                <h3>Positive Mindset</h3>
+                <ul class="tip-list">
+                    <li>Practice gratitude</li>
+                    <li>Set realistic goals</li>
+                    <li>Celebrate small wins</li>
+                    <li>Learn from challenges</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

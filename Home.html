@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chorkor Mobile Doctor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f0f8ff;
+      color: #333;
+    }
+
+    header {
+      background: #0275d8;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: #025aa5;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      padding: 14px 20px;
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+
+    nav a:hover {
+      background: #014682;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      border-bottom: 2px solid #0275d8;
+      padding-bottom: 5px;
+    }
+
+    .feature {
+      margin: 15px 0;
+      border-left: 5px solid #0275d8;
+      padding-left: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #0275d8;
+      color: white;
+      border: none;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #014682;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #eee;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Chorkor Mobile Doctor</h1>
+  <p>Your AI-powered health assistant</p>
+</header>
+
+<nav>
+  <a href="#overview">Overview</a>
+  <a href="#features">Features</a>
+  <a href="#tech">Tech Stack</a>
+  <a href="#plan">Development</a>
+  <a href="#money">Monetization</a>
+</nav>
+
+<section id="overview">
+  <h2>Overview</h2>
+  <p>
+    Chorkor Mobile Doctor is a smart Android app for fitness, AI-powered diagnosis, pharmacy ordering,
+    and real-time drug delivery. It’s built to help people in communities like Chorkor easily access
+    modern healthcare tools from their phone.
+  </p>
+</section>
+
+<section id="features">
+  <h2>Core Features</h2>
+
+  <div class="feature">
+    <h3>1. Login & Signup</h3>
+    <p>Supports Apple, Google, and Email/Password login with optional medical history setup.</p>
+  </div>
+
+  <div class="feature">
+    <h3>2. Health Tracker</h3>
+    <p>Counts steps, tracks calories, and displays progress using professional charts like Samsung Health.</p>
+  </div>
+
+  <div class="feature">
+    <h3>3. AI Diagnosis</h3>
+    <p>Users input symptoms and receive AI health analysis with urgency advice and suggested treatment.</p>
+  </div>
+
+  <div class="feature">
+    <h3>4. Pharmacy + Delivery</h3>
+    <p>Users can buy medications, upload prescriptions, and track delivery using Google Maps and Bolt API.</p>
+  </div>
+</section>
+
+<section id="tech">
+  <h2>Technology Stack</h2>
+  <button onclick="document.getElementById('stack').classList.toggle('hidden')">Show/Hide Tech Stack</button>
+  <ul id="stack" class="hidden">
+    <li><strong>Frontend:</strong> Kotlin, Jetpack Compose</li>
+    <li><strong>Backend:</strong> Firebase / Node.js + MongoDB</li>
+    <li><strong>Authentication:</strong> Firebase Auth</li>
+    <li><strong>AI:</strong> OpenAI API / Custom ML</li>
+    <li><strong>Maps:</strong> Google Maps API</li>
+    <li><strong>Delivery:</strong> Bolt Ride API</li>
+  </ul>
+</section>
+
+<section id="plan">
+  <h2>Development Phases</h2>
+  <ol>
+    <li>UI & Login Design – 2–3 weeks</li>
+    <li>Step Tracker Integration – 2 weeks</li>
+    <li>AI Diagnosis Tool – 2 weeks</li>
+    <li>Mobile Pharmacy + Orders – 3 weeks</li>
+    <li>Delivery Tracking System – 2 weeks</li>
+    <li>Testing & Launch – 2–3 weeks</li>
+  </ol>
+</section>
+
+<section id="money">
+  <h2>Monetization</h2>
+  <ul>
+    <li>Subscription for AI features</li>
+    <li>Delivery & pharmacy commissions</li>
+    <li>Health-related ads (optional)</li>
+  </ul>
+</section>
+
+<footer>
+  &copy; 2025 Chorkor Mobile Doctor. All rights reserved.
+</footer>
+
+</body>
+</html>

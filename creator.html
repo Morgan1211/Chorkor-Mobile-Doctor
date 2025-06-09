@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About the Creator - Chorkor Mobile Doctor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A73E8;
+            --secondary: #34A853;
+            --bg: #F9FAFF;
+            --text-dark: #333333;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 60vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('images/backgrounds/medical-team.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .creator-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            margin-top: -100px;
+            position: relative;
+            box-shadow: var(--card-shadow);
+        }
+
+        .timeline {
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+            width: 50%;
+            padding-right: 3rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 50%;
+            padding-right: 0;
+            padding-left: 3rem;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            right: -6px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            right: auto;
+            left: -6px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--primary);
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-left: 4px solid var(--primary);
+            background: rgba(26, 115, 232, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='index.html'">
+        <span class="material-icons">arrow_back</span>
+    </button>
+
+    <section class="hero-section">
+        <img src="images/creator/morgan.jpg" alt="Morgan" class="creator-image">
+        <h1>Morgan</h1>
+        <p>Founder & Lead Developer of Chorkor Mobile Doctor</p>
+    </section>
+
+    <div class="container">
+        <div class="content-section">
+            <h2>About the Creator</h2>
+            <p>Morgan is a passionate healthcare technology innovator with a vision to make quality healthcare accessible to everyone. With a background in both technology and healthcare, Morgan has dedicated their career to bridging the gap between medical services and the communities that need them most.</p>
+
+            <div class="quote">
+                "My mission is to leverage technology to make healthcare more accessible, affordable, and efficient for everyone, especially in underserved communities."
+            </div>
+
+            <h2>Journey to Innovation</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>2020</h3>
+                        <p>Identified the need for accessible healthcare solutions in underserved communities</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>2021</h3>
+                        <p>Developed the initial concept for Chorkor Mobile Doctor</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>2022</h3>
+                        <p>Launched the first version of the platform with basic telemedicine features</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>2023</h3>
+                        <p>Expanded services to include AI-powered diagnostics and mobile pharmacy integration</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>2024</h3>
+                        <p>Continuing to innovate and expand the platform's capabilities</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Vision for the Future</h2>
+            <p>Morgan's vision extends beyond just creating a healthcare app. The goal is to build a comprehensive healthcare ecosystem that:</p>
+            <ul style="list-style: none; margin: 1rem 0;">
+                <li>• Makes quality healthcare accessible to everyone</li>
+                <li>• Reduces healthcare costs through technology</li>
+                <li>• Improves health outcomes through preventive care</li>
+                <li>• Creates a more connected healthcare community</li>
+            </ul>
+
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <span class="material-icons">linkedin</span>
+                </a>
+                <a href="#" class="social-link">
+                    <span class="material-icons">email</span>
+                </a>
+                <a href="#" class="social-link">
+                    <span class="material-icons">language</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

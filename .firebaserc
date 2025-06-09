@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "doctor-f8c0e",
+    "development": "doctor-f8c0e-dev",
+    "staging": "doctor-f8c0e-staging",
+    "production": "doctor-f8c0e"
+  },
+  "targets": {
+    "doctor-f8c0e": {
+      "hosting": {
+        "chorkor-mobile-doctor": [
+          "doctor-f8c0e"
+        ]
+      }
+    }
+  }
+} 

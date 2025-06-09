@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chorkor Mobile Doctor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        :root {
+            --primary: #2D7BFB;
+            --secondary: #4CAF50;
+            --alert: #FF5252;
+            --bg: #F9FAFF;
+            --text-dark: #333333;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --medical-blue: #1A73E8;
+            --medical-green: #34A853;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('images/home/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero-logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+            background: white;
+            border-radius: 50%;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out 0.3s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            animation: fadeInUp 1s ease-out 0.6s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .hero-btn {
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--medical-blue);
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        /* ===== AUTHENTICATION SCREENS ===== */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--medical-blue);
+            font-size: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--medical-blue);
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--medical-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+        }
+
+        .btn-google {
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-google:hover {
+            background: #f8f9fa;
+            border-color: #d0d0d0;
+        }
+
+        .btn-google img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #888;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .auth-footer a {
+            color: var(--medical-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== DASHBOARD SCREEN ===== */
+        .dashboard {
+            padding: 20px;
+            padding-bottom: 70px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .health-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .step-counter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .step-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 10px solid #E3F2FD;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .step-circle::before {
+            content: "";
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 10px solid var(--primary);
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+        }
+
+        .step-count {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .step-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: #F5F5F5;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(45, 123, 251, 0.3);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* ===== PHARMACY SCREEN ===== */
+        .pharmacy-screen {
+            padding: 20px;
+            padding-bottom: 70px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .search-bar .material-icons {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .category-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .cart-fab {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(45, 123, 251, 0.3);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--alert);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .nav-btn.active {
+            color: var(--primary);
+        }
+
+        /* ===== MODALS ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .symptom-tag {
+            display: inline-block;
+            background: #E3F2FD;
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .symptom-tag.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .severity-slider {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        @media (min-width: 768px) {
+            .auth-card {
+                padding: 40px;
+            }
+            
+            .dashboard, .pharmacy-screen {
+                padding: 30px;
+                padding-bottom: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HERO SECTION ===== -->
+    <div class="hero-section" id="heroSection">
+        <img src="images/home/logo.png" alt="Chorkor Mobile Doctor" class="hero-logo">
+        <h1 class="hero-title">Chorkor Mobile Doctor</h1>
+        <p class="hero-subtitle">Your trusted healthcare companion. Get medical advice, order medicines, and track your health - all in one place.</p>
+        <div class="hero-buttons">
+            <button class="hero-btn btn-primary" id="getStartedBtn">Get Started</button>
+            <button class="hero-btn btn-secondary" id="learnMoreBtn">Learn More</button>
+        </div>
+    </div>
+
+    <!-- ===== AUTHENTICATION SCREENS ===== -->
+    <div class="auth-container" id="loginScreen">
+        <img src="images/home/logo.png" alt="Chorkor Mobile Doctor" class="logo">
+        <div class="auth-card">
+            <h1>Welcome Back</h1>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" id="loginBtn">Login</button>
+            <button class="btn btn-google">
+                <img src="images/icons/google-logo.svg" alt="Google">
+                Continue with Google
+            </button>
+            <div class="divider">or</div>
+            <div class="auth-footer">
+                Don't have an account? <a href="#" id="showSignup">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-container hidden" id="signupScreen">
+        <img src="https://via.placeholder.com/120x120?text=CMD" alt="Logo" class="logo">
+        <div class="auth-card">
+            <h1>Create Account</h1>
+            <div class="input-group">
+                <input type="text" id="signupName" placeholder="Full Name">
+            </div>
+            <div class="input-group">
+                <input type="email" id="signupEmail" placeholder="Email Address">
+            </div>
+            <div class="input-group">
+                <input type="password" id="signupPassword" placeholder="Password">
+            </div>
+            <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+            <p style="text-align: center; margin-top: 20px;">Already have an account? <a href="#" id="showLogin">Login</a></p>
+        </div>
+    </div>
+
+    <!-- ===== MAIN APP SCREENS ===== -->
+    <div class="dashboard hidden" id="dashboard">
+        <div class="header">
+            <h2>Health Dashboard</h2>
+            <div class="user-avatar" id="userAvatar">JD</div>
+        </div>
+
+        <div class="health-card">
+            <div class="step-counter">
+                <div class="step-circle">
+                    <span class="step-count">5,240</span>
+                </div>
+                <span class="step-label">Steps Today</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">2.5 km</div>
+                    <div class="stat-label">Distance</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">320</div>
+                    <div class="stat-label">Calories</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">7h 20m</div>
+                    <div class="stat-label">Sleep</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">72</div>
+                    <div class="stat-label">BPM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="health-card">
+            <h3>Quick Health Tips</h3>
+            <p style="margin-top: 10px;">• Drink at least 8 glasses of water today</p>
+            <p>• Take a 10-minute walk every 2 hours</p>
+        </div>
+
+        <div class="fab" id="symptomBtn">
+            <span class="material-icons">medical_services</span>
+        </div>
+    </div>
+
+    <div class="pharmacy-screen hidden" id="pharmacyScreen">
+        <div class="header">
+            <h2>Mobile Pharmacy</h2>
+            <div class="user-avatar" id="pharmacyUserAvatar">JD</div>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search medicines..." id="searchMedicine">
+            <span class="material-icons">search</span>
+        </div>
+        
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="Pain Relief">Pain Relief</button>
+            <button class="category-btn" data-category="Antibiotics">Antibiotics</button>
+            <button class="category-btn" data-category="Vitamins">Vitamins</button>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Products loaded via JavaScript -->
+        </div>
+        
+        <div class="cart-fab" id="cartFab">
+            <span class="material-icons">shopping_cart</span>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+    </div>
+
+    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <nav class="bottom-nav hidden" id="bottomNav">
+        <button class="nav-btn active" data-screen="dashboard">
+            <span class="material-icons">home</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-btn" data-screen="pharmacy">
+            <span class="material-icons">local_pharmacy</span>
+            <span>Pharmacy</span>
+        </button>
+        <button class="nav-btn" data-screen="profile">
+            <span class="material-icons">person</span>
+            <span>Profile</span>
+        </button>
+    </nav>
+
+    <!-- ===== MODALS ===== -->
+    <div class="modal hidden" id="symptomModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Symptom Checker</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <p>Select your symptoms:</p>
+            <div id="symptomTags">
+                <span class="symptom-tag">Fever</span>
+                <span class="symptom-tag">Headache</span>
+                <span class="symptom-tag">Cough</span>
+                <span class="symptom-tag">Fatigue</span>
+                <span class="symptom-tag">Nausea</span>
+                <span class="symptom-tag">Dizziness</span>
+            </div>
+            <div style="margin-top: 20px;">
+                <label for="severity">Severity: <span id="severityValue">Moderate</span></label>
+                <input type="range" id="severity" min="1" max="3" value="2" class="severity-slider">
+            </div>
+            <button class="btn btn-primary" style="margin-top: 20px;">Analyze Symptoms</button>
+        </div>
+    </div>
+
+    <!-- ===== FIREBASE SDK ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <!-- ===== APP JAVASCRIPT ===== -->
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+        // ===== AUTHENTICATION FUNCTIONS =====
+        document.getElementById('loginBtn').addEventListener('click', loginWithEmail);
+        document.getElementById('googleLoginBtn').addEventListener('click', loginWithGoogle);
+        document.getElementById('signupBtn').addEventListener('click', signUpWithEmail);
+        document.getElementById('showSignup').addEventListener('click', showSignupScreen);
+        document.getElementById('showLogin').addEventListener('click', showLoginScreen);
+
+        function loginWithEmail() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => showApp())
+                .catch(error => alert(error.message));
+        }
+
+        function loginWithGoogle() {
+            auth.signInWithPopup(googleProvider)
+                .then(() => showApp())
+                .catch(error => alert(error.message));
+        }
+
+        function signUpWithEmail() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    return db.collection('users').doc(userCredential.user.uid).set({
+                        name: name,
+                        email: email,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                })
+                .then(() => showApp())
+                .catch(error => alert(error.message));
+        }
+
+        function showSignupScreen(e) {
+            e.preventDefault();
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('signupScreen').classList.remove('hidden');
+        }
+
+        function showLoginScreen(e) {
+            e.preventDefault();
+            document.getElementById('signupScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        // ===== APP NAVIGATION =====
+        function showApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('signupScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            
+            // Set user avatar initial
+            const user = auth.currentUser;
+            if (user) {
+                const initial = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+                document.getElementById('userAvatar').textContent = initial;
+                document.getElementById('pharmacyUserAvatar').textContent = initial;
+            }
+        }
+
+        // Bottom nav click handlers
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show selected screen
+                const screen = this.getAttribute('data-screen');
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('pharmacyScreen').classList.add('hidden');
+                
+                if (screen === 'dashboard') {
+                    document.getElementById('dashboard').classList.remove('hidden');
+                } else if (screen === 'pharmacy') {
+                    document.getElementById('pharmacyScreen').classList.remove('hidden');
+                    loadProducts();
+                }
+            });
+        });
+
+        // ===== PHARMACY FUNCTIONS =====
+        const products = [
+            { id: 1, name: "Paracetamol", price: 5.99, category: "Pain Relief", image: "https://via.placeholder.com/150?text=Paracetamol" },
+            { id: 2, name: "Ibuprofen", price: 7.50, category: "Pain Relief", image: "https://via.placeholder.com/150?text=Ibuprofen" },
+            { id: 3, name: "Amoxicillin", price: 12.99, category: "Antibiotics", image: "https://via.placeholder.com/150?text=Amoxicillin" },
+            { id: 4, name: "Vitamin C", price: 9.99, category: "Vitamins", image: "https://via.placeholder.com/150?text=Vitamin+C" },
+            { id: 5, name: "Aspirin", price: 4.50, category: "Pain Relief", image: "https://via.placeholder.com/150?text=Aspirin" },
+            { id: 6, name: "Vitamin D", price: 8.99, category: "Vitamins", image: "https://via.placeholder.com/150?text=Vitamin+D" }
+        ];
+
+        let cart = [];
+        let currentCategory = 'all';
+
+        function loadProducts(category = 'all') {
+            currentCategory = category;
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            
+            const filtered = category === 'all' 
+                ? products 
+                : products.filter(p => p.category === category);
+            
+            filtered.forEach(product => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price.toFixed(2)}</p>
+                        <button class="btn-add" data-id="${product.id}">Add to Cart</button>
+                    </div>
+                `;
+            });
+
+            // Add event listeners to new buttons
+            document.querySelectorAll('.btn-add').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCartCount();
+            alert(`${product.name} added to cart!`);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        // Category button handlers
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const category = this.getAttribute('data-category');
+                loadProducts(category);
+            });
+        });
+
+        // ===== SYMPTOM CHECKER MODAL =====
+        document.getElementById('symptomBtn').addEventListener('click', () => {
+            document.getElementById('symptomModal').classList.remove('hidden');
+        });
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('symptomModal').classList.add('hidden');
+        });
+
+        // Symptom tag selection
+        document.querySelectorAll('.symptom-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // Severity slider
+        document.getElementById('severity').addEventListener('input', function() {
+            const values = ['Mild', 'Moderate', 'Severe'];
+            document.getElementById('severityValue').textContent = values[this.value - 1];
+        });
+
+        // ===== INITIALIZE APP =====
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                showApp();
+            }
+        });
+
+        // Add this to your existing JavaScript
+        document.getElementById('getStartedBtn').addEventListener('click', () => {
+            window.location.href = 'creator.html';
+        });
+
+        document.getElementById('learnMoreBtn').addEventListener('click', () => {
+            window.location.href = 'about.html';
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isWithinTrialPeriod() {
+      return request.time < timestamp.date(2025, 7, 9);
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated() && isWithinTrialPeriod();
+      allow create: if isAuthenticated() && isOwner(userId) && isWithinTrialPeriod();
+      allow update: if isAuthenticated() && isOwner(userId) && isWithinTrialPeriod();
+      allow delete: if isAuthenticated() && isOwner(userId) && isWithinTrialPeriod();
+    }
+
+    // Products collection
+    match /products/{productId} {
+      allow read: if isWithinTrialPeriod();  // Anyone can read products during trial
+      allow write: if isAuthenticated() && isWithinTrialPeriod();  // Any authenticated user can modify during trial
+    }
+
+    // Orders collection
+    match /orders/{orderId} {
+      allow read: if isAuthenticated() && isWithinTrialPeriod();
+      allow create: if isAuthenticated() && isWithinTrialPeriod();
+      allow update: if isAuthenticated() && isWithinTrialPeriod();
+      allow delete: if isAuthenticated() && isWithinTrialPeriod();
+    }
+
+    // Prescriptions collection
+    match /prescriptions/{prescriptionId} {
+      allow read: if isAuthenticated() && isWithinTrialPeriod();
+      allow create: if isAuthenticated() && isWithinTrialPeriod();
+      allow update: if isAuthenticated() && isWithinTrialPeriod();
+      allow delete: if isAuthenticated() && isWithinTrialPeriod();
+    }
+
+    // Health records collection
+    match /health_records/{recordId} {
+      allow read: if isAuthenticated() && isWithinTrialPeriod();
+      allow create: if isAuthenticated() && isWithinTrialPeriod();
+      allow update: if isAuthenticated() && isWithinTrialPeriod();
+      allow delete: if isAuthenticated() && isWithinTrialPeriod();
+    }
+
+    // Default rule for any other collections
+    match /{document=**} {
+      allow read, write: if isAuthenticated() && isWithinTrialPeriod();
+    }
+  }
+} 
