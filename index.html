@@ -826,83 +826,28 @@
         </button>
     </nav>
 
-    <!-- ===== FIREBASE SDK ===== -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
     <!-- ===== APP JAVASCRIPT ===== -->
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "YOUR_MEASUREMENT_ID"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-        // ===== PAGE TRANSITIONS =====
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-        }
-
         // ===== AUTHENTICATION FUNCTIONS =====
-        document.getElementById('loginBtn').addEventListener('click', loginWithEmail);
-        document.getElementById('googleLoginBtn').addEventListener('click', loginWithGoogle);
-        document.getElementById('signupBtn').addEventListener('click', signUpWithEmail);
+        document.getElementById('loginBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            if (username === "Admin" && password === "Admin") {
+                showApp();
+                document.getElementById('loginError').style.display = "none";
+            } else {
+                // Add shake animation to form
+                document.querySelector('.auth-card').classList.add('shake');
+                setTimeout(() => {
+                    document.querySelector('.auth-card').classList.remove('shake');
+                }, 500);
+                document.getElementById('loginError').style.display = "block";
+            }
+        });
+
         document.getElementById('showSignup').addEventListener('click', showSignupScreen);
         document.getElementById('showLogin').addEventListener('click', showLoginScreen);
-
-        function loginWithEmail() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            auth.signInWithEmailAndPassword(email, password)
-                .then(() => showApp())
-                .catch(error => {
-                    alert(error.message);
-                    // Add shake animation to form
-                    document.querySelector('.auth-card').classList.add('shake');
-                    setTimeout(() => {
-                        document.querySelector('.auth-card').classList.remove('shake');
-                    }, 500);
-                });
-        }
-
-        function loginWithGoogle() {
-            auth.signInWithPopup(googleProvider)
-                .then(() => showApp())
-                .catch(error => alert(error.message));
-        }
-
-        function signUpWithEmail() {
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    return db.collection('users').doc(userCredential.user.uid).set({
-                        name: name,
-                        email: email,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => showApp())
-                .catch(error => alert(error.message));
-        }
 
         function showSignupScreen(e) {
             e.preventDefault();
@@ -922,24 +867,15 @@
             document.getElementById('signupScreen').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('bottomNav').classList.remove('hidden');
-            
-            // Set user avatar initial
-            const user = auth.currentUser;
-            if (user) {
-                const initial = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
-                document.getElementById('userAvatar').textContent = initial;
-                document.getElementById('pharmacyUserAvatar').textContent = initial;
-            }
+            document.getElementById('userAvatar').textContent = "AD";
+            document.getElementById('pharmacyUserAvatar').textContent = "AD";
         }
 
         // Bottom nav click handlers
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                // Update active state
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                
-                // Show selected screen
                 const screen = this.getAttribute('data-screen');
                 document.getElementById('dashboard').classList.add('hidden');
                 document.getElementById('pharmacyScreen').classList.add('hidden');
