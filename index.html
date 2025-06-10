@@ -42,15 +42,6 @@
 
         .hidden {
             display: none !important;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition-medium), visibility 0s linear var(--transition-medium);
-        }
-
-        .visible {
-            opacity: 1;
-            visibility: visible;
-            transition: opacity var(--transition-medium), visibility 0s linear 0s;
         }
 
         /* ===== PAGE TRANSITIONS ===== */
@@ -475,12 +466,6 @@
             padding: 12px 0;
             box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
             z-index: 100;
-            transform: translateY(0);
-            transition: transform var(--transition-medium);
-        }
-
-        .bottom-nav.hidden {
-            transform: translateY(100%);
         }
 
         .nav-btn {
@@ -575,63 +560,47 @@
             color: var(--primary);
         }
 
-        /* ===== LEARN MORE MODAL ===== */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition-medium), visibility var(--transition-medium);
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 16px;
+        /* ===== PHARMACY STYLES ===== */
+        .pharmacy-container {
             padding: 24px;
-            max-height: 80vh;
-            overflow-y: auto;
-            transform: translateY(20px);
-            transition: transform var(--transition-medium);
         }
 
-        .modal.active .modal-content {
-            transform: translateY(0);
+        .pharmacy-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
         }
 
-        .modal-header {
+        .pharmacy-product-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 14px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
+            text-align: center;
+            transition: box-shadow 0.2s;
         }
 
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: color var(--transition-fast);
+        .pharmacy-product-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
         }
 
-        .close-btn:hover {
-            color: var(--primary);
+        .cart-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 18px 16px;
+            margin-bottom: 24px;
+        }
+
+        .map-card {
+            background: #fff;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 12px;
+            margin-bottom: 10px;
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
@@ -670,9 +639,15 @@
             }
         }
 
-        button, .btn, .nav-btn, .fab {
-    cursor: pointer;
-}
+        /* ===== SHAKE ANIMATION ===== */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake {
+            animation: shake 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -685,14 +660,14 @@
         <h1 class="hero-title">Chorkor Mobile Doctor</h1>
         <p class="hero-subtitle">Your trusted healthcare companion. Get medical advice, order medicines, and track your health - all in one place.</p>
         <div class="hero-buttons">
-            <a href="creator.html" class="btn btn-primary" id="getStartedBtn">
+            <button class="btn btn-primary" id="getStartedBtn">
                 <span class="material-icons">play_arrow</span>
                 Get Started
-            </a>
-            <a href="about.html" class="btn btn-secondary" id="learnMoreBtn">
+            </button>
+            <button class="btn btn-secondary" id="learnMoreBtn">
                 <span class="material-icons">info</span>
                 Learn More
-            </a>
+            </button>
         </div>
     </section>
 
@@ -713,17 +688,6 @@
                 <input type="password" id="loginPassword" placeholder="Enter your password">
             </div>
             <button class="btn btn-primary" id="loginBtn">Login</button>
-            <button class="btn btn-google" id="googleLoginBtn">
-                <svg width="20" height="20" viewBox="0 0 48 48" style="margin-right:8px;vertical-align:middle;">
-                    <g>
-                        <path fill="#4285F4" d="M43.6 20.5h-1.9V20H24v8h11.3c-1.6 4.3-5.7 7-11.3 7-6.6 0-12-5.4-12-12s5.4-12 12-12c2.7 0 5.2.9 7.2 2.4l6.1-6.1C34.5 5.5 29.5 3.5 24 3.5 12.4 3.5 3 12.9 3 24.5S12.4 45.5 24 45.5c11.1 0 20.5-9 20.5-20.5 0-1.4-.1-2.7-.4-4z"/>
-                        <path fill="#34A853" d="M6.3 14.1l6.6 4.8C14.5 16.1 18.9 13 24 13c2.7 0 5.2.9 7.2 2.4l6.1-6.1C34.5 5.5 29.5 3.5 24 3.5c-7.2 0-13.5 4.1-16.7 10.6z"/>
-                        <path fill="#FBBC05" d="M24 45.5c5.5 0 10.5-1.9 14.4-5.2l-6.7-5.5c-2 1.4-4.5 2.2-7.7 2.2-5.6 0-10.3-3.8-12-8.9l-6.6 5.1C7.5 41.1 15.2 45.5 24 45.5z"/>
-                        <path fill="#EA4335" d="M43.6 20.5h-1.9V20H24v8h11.3c-1.1 3-3.6 5.2-7.3 5.2-2.1 0-4-.7-5.5-1.9l-6.7 5.5C15.2 41.1 19.5 45.5 24 45.5c6.6 0 12-5.4 12-12 0-1.1-.1-2.1-.4-3z"/>
-                    </g>
-                </svg>
-                Continue with Google
-            </button>
             <div class="divider">or</div>
             <div class="auth-footer">
                 Don't have an account? <a href="#" id="showSignup">Sign up</a>
@@ -763,7 +727,7 @@
     <div class="dashboard hidden" id="dashboard">
         <div class="header">
             <h2>Health Dashboard</h2>
-            <div class="user-avatar" id="userAvatar">JD</div>
+            <div class="user-avatar" id="userAvatar">AD</div>
         </div>
 
         <div class="health-card">
@@ -809,20 +773,19 @@
     <div class="dashboard hidden" id="pharmacyScreen">
         <div class="header">
             <h2>Pharmacy</h2>
-            <div class="user-avatar" id="pharmacyUserAvatar">JD</div>
+            <div class="user-avatar" id="pharmacyUserAvatar">AD</div>
         </div>
 
-        <div class="pharmacy-container" style="padding:24px;">
-            <h2 style="margin-bottom:20px;">Pharmacy</h2>
+        <div class="pharmacy-container">
             <div style="display:flex; flex-wrap:wrap; gap:32px;">
                 <!-- Product List -->
                 <div style="flex:2 1 600px;">
-                    <div id="pharmacyProducts" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px;"></div>
+                    <div id="pharmacyProducts" class="pharmacy-products"></div>
                 </div>
                 <!-- Cart & Map -->
                 <div style="flex:1 1 320px; min-width:320px;">
-                    <div class="cart-card" style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.07); padding:18px 16px; margin-bottom:24px;">
-                        <h3 style="margin-bottom:10px;">Your Cart</h3>
+                    <div class="cart-card">
+                        <h3>Your Cart</h3>
                         <ul id="cartList" style="list-style:none; padding:0; margin:0 0 10px 0; min-height:40px;"></ul>
                         <div style="font-weight:600; margin-bottom:10px;">Total: <span id="cartTotal">GHS 0.00</span></div>
                         <button class="btn btn-primary" id="checkoutBtn" style="width:100%;">Checkout</button>
@@ -830,7 +793,7 @@
                     <div style="margin-bottom:10px;">
                         <button id="trackOrderBtn" class="btn btn-primary" style="width:100%;border-radius:8px 8px 0 0;">Track Order</button>
                     </div>
-                    <div class="map-card" style="background:#fff; border-radius:0 0 12px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.07); padding:12px; margin-bottom:10px;">
+                    <div class="map-card">
                         <h4 style="margin-bottom:8px; font-size:1rem;">Delivery Area Map</h4>
                         <iframe
                             src="https://www.openstreetmap.org/export/embed.html?bbox=-0.2415,5.5275,-0.2100,5.5510&amp;layer=mapnik"
@@ -883,23 +846,94 @@
         </button>
     </nav>
 
-    <!-- ===== APP JAVASCRIPT ===== -->
+    <!-- ===== MODALS ===== -->
+    <!-- Learn More Modal -->
+    <div class="modal" id="learnMoreModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>About Chorkor Mobile Doctor</h2>
+                <button class="close-btn" id="closeLearnMoreModal">&times;</button>
+            </div>
+            <div>
+                <h3>Healthcare Information</h3>
+                <p>
+                    Chorkor Mobile Doctor is dedicated to providing accessible healthcare solutions, medical advice, and medicine delivery to your doorstep. Our platform empowers users to track their health, consult with professionals, and stay informed about healthy living.
+                </p>
+                <h3>General Manager</h3>
+                <p>
+                    <strong>Morgan</strong> is the General Manager of this project. With a passion for digital health and community well-being, Morgan leads the team to ensure quality service and innovation for all users.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- First Aid Modal -->
+    <div class="modal" id="firstAidModal">
+        <div class="modal-content" style="max-width:350px;">
+            <div class="modal-header">
+                <h3>First Aid Tips</h3>
+                <button class="close-btn" id="closeFirstAidModal">&times;</button>
+            </div>
+            <ul style="padding-left:18px;">
+                <li><b>Burns:</b> Cool the burn under running water for 10 minutes.</li>
+                <li><b>Bleeding:</b> Apply pressure with a clean cloth to stop bleeding.</li>
+                <li><b>Choking:</b> Encourage coughing; if not breathing, call emergency services.</li>
+                <li><b>Fainting:</b> Lay the person down and raise their legs.</li>
+                <li><b>Sprains:</b> Rest, ice, compress, and elevate the injured area.</li>
+            </ul>
+        </div>
+    </div>
+
     <script>
+        // ===== GLOBAL VARIABLES =====
+        const pharmacyProducts = [
+            { name: "Paracetamol", price: 2.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Amoxicillin", price: 8, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Cough Syrup", price: 6, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Vitamin C", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Ibuprofen", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Flagyl", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "ORS Sachet", price: 1.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Chloroquine", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Coartem", price: 12, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
+            { name: "Zinc Tablets", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" }
+        ];
+        
+        let cart = [];
+
         // ===== AUTHENTICATION FUNCTIONS =====
         document.getElementById('loginBtn').addEventListener('click', function(e) {
             e.preventDefault();
             const username = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
-            if (username === "Admin" && password === "Admin") {
+            
+            // Simple validation - accept any non-empty credentials
+            if (username && password) {
                 showApp();
-                document.getElementById('loginError').style.display = "none";
             } else {
                 // Add shake animation to form
                 document.querySelector('.auth-card').classList.add('shake');
                 setTimeout(() => {
                     document.querySelector('.auth-card').classList.remove('shake');
                 }, 500);
-                document.getElementById('loginError').style.display = "block";
+            }
+        });
+
+        document.getElementById('signupBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            
+            // Simple validation - accept any non-empty credentials
+            if (name && email && password) {
+                showApp();
+            } else {
+                // Add shake animation to form
+                document.querySelector('.auth-card').classList.add('shake');
+                setTimeout(() => {
+                    document.querySelector('.auth-card').classList.remove('shake');
+                }, 500);
             }
         });
 
@@ -920,19 +954,41 @@
 
         // ===== APP NAVIGATION =====
         function showApp() {
+            document.getElementById('heroSection').classList.add('hidden');
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('signupScreen').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('bottomNav').classList.remove('hidden');
-            document.getElementById('userAvatar').textContent = "AD";
-            document.getElementById('pharmacyUserAvatar').textContent = "AD";
+            
+            // Set user avatar initial
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('loginEmail').value.trim() || 
+                         document.getElementById('signupEmail').value.trim();
+            
+            const initial = name ? name.charAt(0).toUpperCase() : 
+                          email ? email.charAt(0).toUpperCase() : 'A';
+            
+            document.getElementById('userAvatar').textContent = initial;
+            document.getElementById('pharmacyUserAvatar').textContent = initial;
+            document.getElementById('profileAvatar').textContent = initial;
+            
+            // Set profile name if available
+            if (name) {
+                document.getElementById('profileName').textContent = name;
+            }
+            if (email) {
+                document.getElementById('profileEmail').textContent = email;
+            }
         }
 
         // Bottom nav click handlers
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
+                // Update active state
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
+                
+                // Show selected screen
                 const screen = this.getAttribute('data-screen');
                 document.getElementById('dashboard').classList.add('hidden');
                 document.getElementById('pharmacyScreen').classList.add('hidden');
@@ -942,251 +998,172 @@
                     document.getElementById('dashboard').classList.remove('hidden');
                 } else if (screen === 'pharmacy') {
                     document.getElementById('pharmacyScreen').classList.remove('hidden');
-                    loadProducts();
+                    renderPharmacyProducts();
                 } else if (screen === 'profile') {
                     document.getElementById('profileScreen').classList.remove('hidden');
                 }
             });
         });
 
-        function loadProducts() {
-    // Placeholder: implement pharmacy product loading here
-}
-
         // Show login page when "Get Started" is clicked
         document.getElementById('getStartedBtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('heroSection').classList.add('hidden');
-    document.getElementById('loginScreen').classList.remove('hidden');
-});
+            e.preventDefault();
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        });
 
-        // Return to hero section when "Return to Home" is clicked
-        document.querySelectorAll('#returnToHero').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('signupScreen').classList.add('hidden');
-        document.getElementById('heroSection').classList.remove('hidden');
-    });
-});
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Hide all app screens and nav
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pharmacyScreen').classList.add('hidden');
+            document.getElementById('profileScreen').classList.add('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+            
+            // Show the hero section (homepage)
+            document.getElementById('heroSection').classList.remove('hidden');
+            
+            // Reset nav to dashboard
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-screen') === 'dashboard') {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Clear form fields
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+        });
 
-        // ===== INITIALIZE APP =====
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                showApp();
+        // ===== PHARMACY FUNCTIONS =====
+        function renderPharmacyProducts() {
+            const container = document.getElementById('pharmacyProducts');
+            container.innerHTML = '';
+            
+            pharmacyProducts.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'pharmacy-product-card';
+                card.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}" style="width:60px; height:60px; margin-bottom:10px;">
+                    <div style="font-weight:600; margin-bottom:4px;">${product.name}</div>
+                    <div style="color:#2D7BFB; font-weight:500; margin-bottom:8px;">GHS ${product.price.toFixed(2)}</div>
+                    <button class="btn btn-primary" data-index="${index}" style="width:100%;">Add to Cart</button>
+                `;
+                container.appendChild(card);
+                
+                // Add event listener to the button
+                card.querySelector('button').addEventListener('click', () => addToCart(index));
+            });
+        }
+
+        function addToCart(index) {
+            const product = pharmacyProducts[index];
+            const existingItem = cart.find(item => item.name === product.name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                });
+            }
+            
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartList = document.getElementById('cartList');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartList.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                
+                const li = document.createElement('li');
+                li.style = "display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;";
+                li.innerHTML = `
+                    <span>${item.name} <span style="color:#888;">x${item.quantity}</span></span>
+                    <span>
+                        <button style="background:none;border:none;color:#2D7BFB;font-size:18px;cursor:pointer;" data-index="${index}">&times;</button>
+                    </span>
+                `;
+                cartList.appendChild(li);
+                
+                // Add event listener to remove button
+                li.querySelector('button').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeFromCart(index);
+                });
+            });
+            
+            cartTotal.textContent = `GHS ${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        document.getElementById('checkoutBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            
+            alert("Order placed! Your medicines will be delivered soon.");
+            cart = [];
+            renderCart();
+        });
+
+        document.getElementById('trackOrderBtn').addEventListener('click', function() {
+            alert("Your order is being processed and will be delivered soon!");
+        });
+
+        // ===== MODAL FUNCTIONS =====
+        document.getElementById('learnMoreBtn').addEventListener('click', function() {
+            document.getElementById('learnMoreModal').classList.add('active');
+        });
+
+        document.getElementById('closeLearnMoreModal').addEventListener('click', function() {
+            document.getElementById('learnMoreModal').classList.remove('active');
+        });
+
+        document.getElementById('learnMoreModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
             }
         });
 
-        // Add shake animation to auth card on error
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
-            }
-            .shake {
-                animation: shake 0.5s ease;
-            }
-        `;
-        document.head.appendChild(style);
+        document.getElementById('symptomBtn').addEventListener('click', function() {
+            document.getElementById('firstAidModal').classList.add('active');
+        });
 
+        document.getElementById('closeFirstAidModal').addEventListener('click', function() {
+            document.getElementById('firstAidModal').classList.remove('active');
+        });
+
+        document.getElementById('firstAidModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
-    // Learn More Modal functionality
-    document.getElementById('learnMoreBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('learnMoreModal').classList.add('active');
-    });
-    document.getElementById('closeLearnMoreModal').addEventListener('click', function() {
-        document.getElementById('learnMoreModal').classList.remove('active');
-    });
-    document.getElementById('learnMoreModal').addEventListener('click', function(e) {
-        if (e.target === this) this.classList.remove('active');
-    });
-});
-
-// ===== PHARMACY PRODUCTS & CART =====
-const pharmacyProducts = [
-    // 50+ Ghanaian drugs with images and prices
-    { name: "Paracetamol", price: 2.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Amoxicillin", price: 8, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Cough Syrup", price: 6, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Vitamin C", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Ibuprofen", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Flagyl", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "ORS Sachet", price: 1.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Chloroquine", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Coartem", price: 12, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Zinc Tablets", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Multivitamins", price: 7, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Antacid", price: 2.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Loratadine", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Cetrizine", price: 3.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Diclofenac", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Erythromycin", price: 9, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Azithromycin", price: 10, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Ciprofloxacin", price: 8, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Metronidazole", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Artemether-Lumefantrine", price: 13, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Folic Acid", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Iron Tablets", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Calpol", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Benylin", price: 6, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Alka Seltzer", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Gaviscon", price: 7, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "ORS + Zinc Kit", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Hydrocortisone Cream", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Gentamicin Cream", price: 6, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Clotrimazole Cream", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Mebendazole", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Albendazole", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Loperamide", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "ORS Sachet (Large)", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Salbutamol Inhaler", price: 15, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Ventolin Inhaler", price: 16, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Prednisolone", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Doxycycline", price: 7, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Amoxiclav", price: 12, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Cough Lozenges", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Panadol", price: 2.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Strepsils", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Nurofen", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Bonjela Gel", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "ORS Sachet (Kids)", price: 1.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Vitamin B Complex", price: 6, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Calcium Tablets", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Magnesium Tablets", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "ORS + Vitamin C", price: 3.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Antiseptic Solution", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-    { name: "Plaster Pack", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" }
-];
-
-let cart = [];
-
-function renderPharmacyProducts() {
-    const container = document.getElementById('pharmacyProducts');
-    if (!container) return;
-    container.innerHTML = '';
-    pharmacyProducts.forEach((prod, idx) => {
-        const card = document.createElement('div');
-        card.className = 'pharmacy-product-card';
-        card.style = "background:#fff; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.07); padding:14px; display:flex; flex-direction:column; align-items:center; text-align:center; transition:box-shadow 0.2s;";
-        card.innerHTML = `
-            <img src="${prod.img}" alt="${prod.name}" style="width:60px; height:60px; margin-bottom:10px;">
-            <div style="font-weight:600; margin-bottom:4px;">${prod.name}</div>
-            <div style="color:#2D7BFB; font-weight:500; margin-bottom:8px;">GHS ${prod.price.toFixed(2)}</div>
-            <button class="btn btn-primary" data-idx="${idx}" style="width:100%;">Add to Cart</button>
-        `;
-        card.querySelector('button').onclick = function() {
-            addToCart(idx);
-        };
-        container.appendChild(card);
-    });
-}
-
-function addToCart(idx) {
-    const prod = pharmacyProducts[idx];
-    const found = cart.find(item => item.name === prod.name);
-    if (found) {
-        found.qty += 1;
-    } else {
-        cart.push({ ...prod, qty: 1 });
-    }
-    renderCart();
-}
-
-function renderCart() {
-    const cartList = document.getElementById('cartList');
-    const cartTotal = document.getElementById('cartTotal');
-    if (!cartList || !cartTotal) return;
-    cartList.innerHTML = '';
-    let total = 0;
-    cart.forEach((item, i) => {
-        total += item.price * item.qty;
-        const li = document.createElement('li');
-        li.style = "display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;";
-        li.innerHTML = `
-            <span>${item.name} <span style="color:#888;">x${item.qty}</span></span>
-            <span>
-                <button style="background:none;border:none;color:#2D7BFB;font-size:18px;cursor:pointer;" onclick="removeFromCart(${i})">&times;</button>
-            </span>
-        `;
-        cartList.appendChild(li);
-    });
-    cartTotal.textContent = `GHS ${total.toFixed(2)}`;
-}
-
-window.removeFromCart = function(idx) {
-    cart.splice(idx, 1);
-    renderCart();
-};
-
-document.getElementById('checkoutBtn')?.addEventListener('click', function() {
-    if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-    }
-    alert("Order placed! Your drugs will be delivered in Chorkor. Track delivery on the map.");
-    cart = [];
-    renderCart();
-});
-
-document.getElementById('trackOrderBtn')?.addEventListener('click', function() {
-    const mapCard = document.getElementById('mapCard');
-    if (mapCard.style.display === "none" || mapCard.style.opacity === "0" || mapCard.style.maxHeight === "0px") {
-        mapCard.style.display = "block";
-        setTimeout(() => {
-            mapCard.style.opacity = "1";
-            mapCard.style.maxHeight = "400px";
-        }, 10);
-        this.textContent = "Hide Map";
-    } else {
-        mapCard.style.opacity = "0";
-        mapCard.style.maxHeight = "0px";
-        setTimeout(() => {
-            mapCard.style.display = "none";
-        }, 500);
-        this.textContent = "Track Order";
-    }
-});
-
-// Render products when pharmacy tab is shown
-document.querySelector('[data-screen="pharmacy"]').addEventListener('click', renderPharmacyProducts);
-
-// Render cart on load (in case user switches tabs)
-renderCart();
-
-document.getElementById('logoutBtn')?.addEventListener('click', function() {
-    // Hide all app screens and nav
-    document.getElementById('dashboard').classList.add('hidden');
-    document.getElementById('pharmacyScreen').classList.add('hidden');
-    document.getElementById('profileScreen').classList.add('hidden');
-    document.getElementById('bottomNav').classList.add('hidden');
-    // Show the hero section (homepage)
-    document.getElementById('heroSection').classList.remove('hidden');
-    // Optionally clear tab state
-    localStorage.removeItem('activeTab');
-});
+            // Set dashboard as default active screen
+            document.querySelector('[data-screen="dashboard"]').classList.add('active');
+            
+            // Initialize pharmacy products
+            renderPharmacyProducts();
+        });
     </script>
-
-    <!-- ===== LEARN MORE MODAL ===== -->
-<div class="modal" id="learnMoreModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>About Chorkor Mobile Doctor</h2>
-            <button class="close-btn" id="closeLearnMoreModal">&times;</button>
-        </div>
-        <div>
-            <h3>Healthcare Information</h3>
-            <p>
-                Chorkor Mobile Doctor is dedicated to providing accessible healthcare solutions, medical advice, and medicine delivery to your doorstep. Our platform empowers users to track their health, consult with professionals, and stay informed about healthy living.
-            </p>
-            <h3>General Manager</h3>
-            <p>
-                <strong>Morgan</strong> is the General Manager of this project. With a passion for digital health and community well-being, Morgan leads the team to ensure quality service and innovation for all users.
-            </p>
-        </div>
-    </div>
-</div>
 </body>
 </html>
