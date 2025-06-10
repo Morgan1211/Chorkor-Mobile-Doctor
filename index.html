@@ -886,19 +886,59 @@
 
     <script>
         // ===== GLOBAL VARIABLES =====
+        // Updated pharmacy products with real drug images
         const pharmacyProducts = [
-            { name: "Paracetamol", price: 2.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Amoxicillin", price: 8, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Cough Syrup", price: 6, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Vitamin C", price: 4, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Ibuprofen", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Flagyl", price: 5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "ORS Sachet", price: 1.5, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Chloroquine", price: 2, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Coartem", price: 12, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" },
-            { name: "Zinc Tablets", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1047/1047711.png" }
+            {
+                name: "Paracetamol",
+                price: 2.5,
+                img: "https://images.ctfassets.net/6px19en6i6bt/4Qw1p1kQ2k6gK8gQw8gQw/7e2b3b1e2b3b1e2b3b1e2b3b1e2b3b1e/Paracetamol-tablets.jpg"
+            },
+            {
+                name: "Amoxicillin",
+                price: 8,
+                img: "https://www.netmeds.com/images/product-v1/600x600/812857/amoxycillin_500mg_capsule_0_1.jpg"
+            },
+            {
+                name: "Cough Syrup",
+                price: 6,
+                img: "https://www.netmeds.com/images/product-v1/600x600/890857/benadryl_cough_formula_syrup_150ml_0_1.jpg"
+            },
+            {
+                name: "Vitamin C",
+                price: 4,
+                img: "https://www.netmeds.com/images/product-v1/600x600/889857/limcee_vitamin_c_500mg_tablets_15s_0_1.jpg"
+            },
+            {
+                name: "Ibuprofen",
+                price: 3,
+                img: "https://www.netmeds.com/images/product-v1/600x600/812857/ibuprofen_400mg_tablet_0_1.jpg"
+            },
+            {
+                name: "Flagyl",
+                price: 5,
+                img: "https://www.medicines.org.uk/emc/product/2327/PIL.162.1.1.jpg"
+            },
+            {
+                name: "ORS Sachet",
+                price: 1.5,
+                img: "https://5.imimg.com/data5/SELLER/Default/2022/8/VS/UU/GL/1567266/oral-rehydration-salts-ors-500x500.jpg"
+            },
+            {
+                name: "Chloroquine",
+                price: 2,
+                img: "https://www.chemistwarehouse.com.au/~/media/chemistwarehouse/images/products/600/80036.jpg"
+            },
+            {
+                name: "Coartem",
+                price: 12,
+                img: "https://www.drugs.com/images/pills/fio/Coartem-20-120mg.jpg"
+            },
+            {
+                name: "Zinc Tablets",
+                price: 3,
+                img: "https://www.netmeds.com/images/product-v1/600x600/889857/zincovit_tablet_15s_0_1.jpg"
+            }
         ];
-        
         let cart = [];
 
         // ===== AUTHENTICATION FUNCTIONS =====
