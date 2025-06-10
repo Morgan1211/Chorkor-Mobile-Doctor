@@ -669,6 +669,10 @@
                 font-size: 1.1rem;
             }
         }
+
+        button, .btn, .nav-btn, .fab {
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -842,6 +846,27 @@
         </div>
     </div>
 
+    <!-- ===== PROFILE SCREEN ===== -->
+    <div class="dashboard hidden" id="profileScreen">
+        <div class="header">
+            <h2>Your Profile</h2>
+            <div class="user-avatar" id="profileAvatar">AD</div>
+        </div>
+        <div class="health-card" style="max-width:400px;margin:auto;">
+            <h3 style="margin-bottom:10px;">Account Information</h3>
+            <p><strong>Name:</strong> <span id="profileName">Admin</span></p>
+            <p><strong>Email:</strong> <span id="profileEmail">admin@example.com</span></p>
+            <p><strong>Phone:</strong> <span id="profilePhone">+233 24 000 0000</span></p>
+            <p><strong>Location:</strong> <span id="profileLocation">Chorkor, Accra</span></p>
+            <p><strong>Member Since:</strong> <span id="profileSince">2024</span></p>
+            <p><strong>Last Login:</strong> <span id="profileLastLogin">Today</span></p>
+            <button class="btn btn-primary" id="editProfileBtn" style="width:100%;margin-top:18px;">Edit Profile</button>
+            <button class="btn btn-secondary" id="changePasswordBtn" style="width:100%;margin-top:10px;">Change Password</button>
+            <button class="btn btn-secondary" id="contactSupportBtn" style="width:100%;margin-top:10px;">Contact Support</button>
+            <button class="btn btn-primary" id="logoutBtn" style="width:100%;margin-top:24px;background:#2D7BFB;color:#fff;">Log Out</button>
+        </div>
+    </div>
+
     <!-- ===== BOTTOM NAVIGATION ===== -->
     <nav class="bottom-nav hidden" id="bottomNav">
         <button class="nav-btn active" data-screen="dashboard">
@@ -911,12 +936,15 @@
                 const screen = this.getAttribute('data-screen');
                 document.getElementById('dashboard').classList.add('hidden');
                 document.getElementById('pharmacyScreen').classList.add('hidden');
+                document.getElementById('profileScreen').classList.add('hidden');
                 
                 if (screen === 'dashboard') {
                     document.getElementById('dashboard').classList.remove('hidden');
                 } else if (screen === 'pharmacy') {
                     document.getElementById('pharmacyScreen').classList.remove('hidden');
                     loadProducts();
+                } else if (screen === 'profile') {
+                    document.getElementById('profileScreen').classList.remove('hidden');
                 }
             });
         });
@@ -1127,6 +1155,18 @@ document.querySelector('[data-screen="pharmacy"]').addEventListener('click', ren
 
 // Render cart on load (in case user switches tabs)
 renderCart();
+
+document.getElementById('logoutBtn')?.addEventListener('click', function() {
+    // Hide all app screens and nav
+    document.getElementById('dashboard').classList.add('hidden');
+    document.getElementById('pharmacyScreen').classList.add('hidden');
+    document.getElementById('profileScreen').classList.add('hidden');
+    document.getElementById('bottomNav').classList.add('hidden');
+    // Show the hero section (homepage)
+    document.getElementById('heroSection').classList.remove('hidden');
+    // Optionally clear tab state
+    localStorage.removeItem('activeTab');
+});
     </script>
 
     <!-- ===== LEARN MORE MODAL ===== -->
