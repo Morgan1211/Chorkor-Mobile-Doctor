@@ -1,170 +1,1700 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Chorkor Mobile Doctor</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background: #f0f8ff;
-      color: #333;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chorkor Mobile Doctor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        :root {
+            --primary: #2D7BFB;
+            --primary-light: #5D9AFF;
+            --primary-dark: #1A5FC1;
+            --secondary: #4CAF50;
+            --secondary-light: #6FBF73;
+            --secondary-dark: #3D8B40;
+            --alert: #FF5252;
+            --bg: #F9FAFF;
+            --bg-dark: #EFF2F9;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --text-white: #FFFFFF;
+            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.4s ease;
+            --transition-slow: 0.6s ease;
+        }
 
-    header {
-      background: #0275d8;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
 
-    nav {
-      background: #025aa5;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            transition: background-color var(--transition-medium);
+        }
 
-    nav a {
-      padding: 14px 20px;
-      color: white;
-      text-decoration: none;
-      display: block;
-    }
+        .hidden {
+            display: none !important;
+        }
 
-    nav a:hover {
-      background: #014682;
-    }
+        /* ===== PAGE TRANSITIONS ===== */
+        .page {
+            position: absolute;
+            width: 100%;
+            min-height: 100vh;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity var(--transition-medium), transform var(--transition-medium);
+        }
 
-    section {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
+        .page.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    h2 {
-      border-bottom: 2px solid #0275d8;
-      padding-bottom: 5px;
-    }
+        /* ===== BUTTON STYLES ===== */
+        .btn {
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-    .feature {
-      margin: 15px 0;
-      border-left: 5px solid #0275d8;
-      padding-left: 10px;
-    }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    button {
-      padding: 10px 20px;
-      background: #0275d8;
-      color: white;
-      border: none;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-white);
+            border: none;
+        }
 
-    button:hover {
-      background: #014682;
-    }
+        .btn-primary:hover {
+            background: var(--primary-light);
+            box-shadow: 0 4px 16px rgba(45, 123, 251, 0.3);
+        }
 
-    .hidden {
-      display: none;
-    }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-white);
+            border: 2px solid var(--text-white);
+        }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #eee;
-      margin-top: 40px;
-    }
-  </style>
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('images/home/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        svg.hero-logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 50%;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--transition-slow) forwards;
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.3s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.6s forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.9s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== AUTHENTICATION SCREENS ===== */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg-dark) 100%);
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-fast);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .auth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all var(--transition-fast);
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(45, 123, 251, 0.2);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #888;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #e0e0e0;
+            transition: all var(--transition-fast);
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .auth-footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== DASHBOARD SCREEN ===== */
+        .dashboard {
+            padding: 20px;
+            padding-bottom: 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            animation: fadeIn var(--transition-medium) forwards;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(45, 123, 251, 0.3);
+        }
+
+        .health-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .health-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .step-counter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .step-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 12px solid #E3F2FD;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            transition: border-color var(--transition-medium);
+        }
+
+        .step-circle:hover {
+            border-color: #BBDEFB;
+        }
+
+        .step-count {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--primary);
+            transition: color var(--transition-medium);
+        }
+
+        .step-label {
+            color: var(--text-light);
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-item {
+            background: #F5F5F5;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .stat-item:hover {
+            background: #E0E0E0;
+            transform: translateY(-3px);
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* ===== FLOATING ACTION BUTTONS ===== */
+        .fab {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 64px;
+            height: 64px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(45, 123, 251, 0.3);
+            cursor: pointer;
+            z-index: 100;
+            transition: all var(--transition-fast);
+        }
+
+        .fab:hover {
+            background: var(--primary-light);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 32px rgba(45, 123, 251, 0.4);
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-btn.active {
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .nav-btn .material-icons {
+            font-size: 24px;
+            margin-bottom: 4px;
+            transition: transform var(--transition-fast);
+        }
+
+        .nav-btn.active .material-icons {
+            transform: scale(1.2);
+        }
+
+        .nav-btn span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* ===== MODALS ===== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-medium), visibility var(--transition-medium);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            padding: 24px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform var(--transition-medium);
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color var(--transition-fast);
+        }
+
+        .close-btn:hover {
+            color: var(--primary);
+        }
+
+        /* ===== PHARMACY STYLES ===== */
+        .pharmacy-container {
+            padding: 24px;
+        }
+
+        .pharmacy-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .pharmacy-product-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+
+        .pharmacy-product-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .pharmacy-product-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .cart-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 18px 16px;
+            margin-bottom: 24px;
+        }
+
+        .map-card {
+            background: #fff;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        /* ===== EDIT PROFILE STYLES ===== */
+        .edit-profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .edit-profile-form .input-group {
+            margin-bottom: 0;
+        }
+
+        .save-profile-btn {
+            margin-top: 20px;
+        }
+
+        /* ===== HEALTH TARGET STYLES ===== */
+        .target-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .target-progress {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .target-progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .target-message {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+            color: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .step-circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ===== SHAKE ANIMATION ===== */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        /* ===== CONGRATULATION MESSAGE ===== */
+        .congrats-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 2000;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .congrats-message.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .congrats-message h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            opacity: 0;
+        }
+
+        /* ===== USER DETAILS MODAL ===== */
+        .user-details-modal {
+            max-width: 350px;
+        }
+
+        .user-details-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .user-details-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero-section" id="heroSection">
+        <svg class="hero-logo" width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="90" cy="90" r="85" fill="#2D7BFB" stroke="#fff" stroke-width="10"/>
+          <text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="48" font-family="Poppins, Arial, sans-serif" dy=".3em" font-weight="bold">CMD</text>
+        </svg>
+        <h1 class="hero-title">Chorkor Mobile Doctor</h1>
+        <p class="hero-subtitle">Your trusted healthcare companion. Get medical advice, order medicines, and track your health - all in one place.</p>
+        <div class="hero-buttons">
+            <button class="btn btn-primary" id="getStartedBtn">
+                <span class="material-icons">play_arrow</span>
+                Get Started
+            </button>
+            <button class="btn btn-secondary" id="learnMoreBtn">
+                <span class="material-icons">info</span>
+                Learn More
+            </button>
+        </div>
+    </section>
 
-<header>
-  <h1>Chorkor Mobile Doctor</h1>
-  <p>Your AI-powered health assistant</p>
-</header>
+    <!-- ===== AUTHENTICATION SCREENS ===== -->
+    <div class="auth-container hidden" id="loginScreen">
+        <svg class="hero-logo" width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="90" cy="90" r="85" fill="#2D7BFB" stroke="#fff" stroke-width="10"/>
+          <text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="48" font-family="Poppins, Arial, sans-serif" dy=".3em" font-weight="bold">CMD</text>
+        </svg>
+        <div class="auth-card">
+            <h1>Welcome Back</h1>
+            <div class="input-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" id="loginBtn">Login</button>
+            <div class="divider">or</div>
+            <div class="auth-footer">
+                Don't have an account? <a href="#" id="showSignup">Sign up</a>
+            </div>
+        </div>
+    </div>
 
-<nav>
-  <a href="#overview">Overview</a>
-  <a href="#features">Features</a>
-  <a href="#tech">Tech Stack</a>
-  <a href="#plan">Development</a>
-  <a href="#money">Monetization</a>
-</nav>
+    <!-- ===== SIGNUP SCREEN ===== -->
+    <div class="auth-container hidden" id="signupScreen">
+        <svg class="hero-logo" width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="90" cy="90" r="85" fill="#2D7BFB" stroke="#fff" stroke-width="10"/>
+          <text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="48" font-family="Poppins, Arial, sans-serif" dy=".3em" font-weight="bold">CMD</text>
+        </svg>
+        <div class="auth-card">
+            <h1>Create Account</h1>
+            <div class="input-group">
+                <label for="signupName">Name</label>
+                <input type="text" id="signupName" placeholder="Enter your name">
+            </div>
+            <div class="input-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+            <div class="divider">or</div>
+            <div class="auth-footer">
+                Already have an account? <a href="#" id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
 
-<section id="overview">
-  <h2>Overview</h2>
-  <p>
-    Chorkor Mobile Doctor is a smart Android app for fitness, AI-powered diagnosis, pharmacy ordering,
-    and real-time drug delivery. It’s built to help people in communities like Chorkor easily access
-    modern healthcare tools from their phone.
-  </p>
-</section>
+    <!-- ===== MAIN APP SCREENS ===== -->
+    <div class="dashboard hidden" id="dashboard">
+        <div class="header">
+            <h2>Health Dashboard</h2>
+            <div class="user-avatar" id="userAvatar">AD</div>
+        </div>
 
-<section id="features">
-  <h2>Core Features</h2>
+        <div class="health-card">
+            <div class="step-counter">
+                <div class="step-circle">
+                    <span class="step-count">5,240</span>
+                </div>
+                <span class="step-label">Steps Today</span>
+                <div class="target-container">
+                    <div class="target-progress">
+                        <div class="target-progress-bar" id="stepProgressBar"></div>
+                    </div>
+                    <div class="target-message" id="stepTargetMessage">Congratulations! You've reached your step goal!</div>
+                </div>
+            </div>
 
-  <div class="feature">
-    <h3>1. Login & Signup</h3>
-    <p>Supports Apple, Google, and Email/Password login with optional medical history setup.</p>
-  </div>
+            <div class="stats-grid">
+                <div class="stat-item" id="distanceStat">
+                    <div class="stat-value">2.5 km</div>
+                    <div class="stat-label">Distance</div>
+                </div>
+                <div class="stat-item" id="caloriesStat">
+                    <div class="stat-value">320</div>
+                    <div class="stat-label">Calories</div>
+                </div>
+                <div class="stat-item" id="sleepStat">
+                    <div class="stat-value">7h 20m</div>
+                    <div class="stat-label">Sleep</div>
+                </div>
+                <div class="stat-item" id="heartRateStat">
+                    <div class="stat-value">72</div>
+                    <div class="stat-label">BPM</div>
+                </div>
+            </div>
+        </div>
 
-  <div class="feature">
-    <h3>2. Health Tracker</h3>
-    <p>Counts steps, tracks calories, and displays progress using professional charts like Samsung Health.</p>
-  </div>
+        <div class="health-card">
+            <h3>Quick Health Tips</h3>
+            <div style="margin-top: 15px;">
+                <div class="health-tip" style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="material-icons" style="color: var(--primary);">local_drink</span>
+                        <span>Drink at least 8 glasses of water today</span>
+                    </div>
+                </div>
+                <div class="health-tip" style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="material-icons" style="color: var(--primary);">directions_walk</span>
+                        <span>Take a 10-minute walk every 2 hours</span>
+                    </div>
+                </div>
+                <div class="health-tip" style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="material-icons" style="color: var(--primary);">restaurant</span>
+                        <span>Eat more fruits and vegetables</span>
+                    </div>
+                </div>
+                <div class="health-tip" style="padding: 10px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="material-icons" style="color: var(--primary);">nights_stay</span>
+                        <span>Get 7-8 hours of sleep each night</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <div class="feature">
-    <h3>3. AI Diagnosis</h3>
-    <p>Users input symptoms and receive AI health analysis with urgency advice and suggested treatment.</p>
-  </div>
+        <div class="fab" id="symptomBtn">
+            <span class="material-icons">medical_services</span>
+        </div>
+    </div>
 
-  <div class="feature">
-    <h3>4. Pharmacy + Delivery</h3>
-    <p>Users can buy medications, upload prescriptions, and track delivery using Google Maps and Bolt API.</p>
-  </div>
-</section>
+    <!-- ===== PHARMACY SCREEN ===== -->
+    <div class="dashboard hidden" id="pharmacyScreen">
+        <div class="header">
+            <h2>Pharmacy</h2>
+            <div class="user-avatar" id="pharmacyUserAvatar">AD</div>
+        </div>
 
-<section id="tech">
-  <h2>Technology Stack</h2>
-  <button onclick="document.getElementById('stack').classList.toggle('hidden')">Show/Hide Tech Stack</button>
-  <ul id="stack" class="hidden">
-    <li><strong>Frontend:</strong> Kotlin, Jetpack Compose</li>
-    <li><strong>Backend:</strong> Firebase / Node.js + MongoDB</li>
-    <li><strong>Authentication:</strong> Firebase Auth</li>
-    <li><strong>AI:</strong> OpenAI API / Custom ML</li>
-    <li><strong>Maps:</strong> Google Maps API</li>
-    <li><strong>Delivery:</strong> Bolt Ride API</li>
-  </ul>
-</section>
+        <div class="pharmacy-container">
+            <div style="display:flex; flex-wrap:wrap; gap:32px;">
+                <!-- Product List -->
+                <div style="flex:2 1 600px;">
+                    <div id="pharmacyProducts" class="pharmacy-products"></div>
+                </div>
+                <!-- Cart & Map -->
+                <div style="flex:1 1 320px; min-width:320px;">
+                    <div class="cart-card">
+                        <h3>Your Cart</h3>
+                        <ul id="cartList" style="list-style:none; padding:0; margin:0 0 10px 0; min-height:40px;"></ul>
+                        <div style="font-weight:600; margin-bottom:10px;">Total: <span id="cartTotal">GHS 0.00</span></div>
+                        <button class="btn btn-primary" id="checkoutBtn" style="width:100%;">Checkout</button>
+                    </div>
+                    <div style="margin-bottom:10px;">
+                        <button id="trackOrderBtn" class="btn btn-primary" style="width:100%;border-radius:8px 8px 0 0;">Track Order</button>
+                    </div>
+                    <div class="map-card">
+                        <h4 style="margin-bottom:8px; font-size:1rem;">Delivery Area Map</h4>
+                        <iframe
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=-0.2415,5.5275,-0.2100,5.5510&amp;layer=mapnik"
+                            style="width:100%; height:120px; border-radius:8px; border:1px solid #e0e0e0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                        <small style="display:block; margin-top:4px; color:#888;">James Town & Chorkor, Accra</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<section id="plan">
-  <h2>Development Phases</h2>
-  <ol>
-    <li>UI & Login Design – 2–3 weeks</li>
-    <li>Step Tracker Integration – 2 weeks</li>
-    <li>AI Diagnosis Tool – 2 weeks</li>
-    <li>Mobile Pharmacy + Orders – 3 weeks</li>
-    <li>Delivery Tracking System – 2 weeks</li>
-    <li>Testing & Launch – 2–3 weeks</li>
-  </ol>
-</section>
+    <!-- ===== PROFILE SCREEN ===== -->
+    <div class="dashboard hidden" id="profileScreen">
+        <div class="header">
+            <h2>Your Profile</h2>
+            <div class="user-avatar" id="profileAvatar">AD</div>
+        </div>
+        <div class="health-card" style="max-width:400px;margin:auto;">
+            <h3 style="margin-bottom:10px;">Account Information</h3>
+            <p><strong>Name:</strong> <span id="profileName">Admin</span></p>
+            <p><strong>Email:</strong> <span id="profileEmail">admin@example.com</span></p>
+            <p><strong>Phone:</strong> <span id="profilePhone">+233 24 000 0000</span></p>
+            <p><strong>Location:</strong> <span id="profileLocation">Chorkor, Accra</span></p>
+            <p><strong>Member Since:</strong> <span id="profileSince">2024</span></p>
+            <p><strong>Last Login:</strong> <span id="profileLastLogin">Today</span></p>
+            <button class="btn btn-primary" id="editProfileBtn" style="width:100%;margin-top:18px;">Edit Profile</button>
+            <button class="btn btn-secondary" id="changePasswordBtn" style="width:100%;margin-top:10px;">Change Password</button>
+            <button class="btn btn-secondary" id="contactSupportBtn" style="width:100%;margin-top:10px;">Contact Support</button>
+            <button class="btn btn-primary" id="logoutBtn" style="width:100%;margin-top:24px;background:#2D7BFB;color:#fff;">Log Out</button>
+        </div>
+    </div>
 
-<section id="money">
-  <h2>Monetization</h2>
-  <ul>
-    <li>Subscription for AI features</li>
-    <li>Delivery & pharmacy commissions</li>
-    <li>Health-related ads (optional)</li>
-  </ul>
-</section>
+    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <nav class="bottom-nav hidden" id="bottomNav">
+        <button class="nav-btn active" data-screen="dashboard">
+            <span class="material-icons">home</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-btn" data-screen="pharmacy">
+            <span class="material-icons">local_pharmacy</span>
+            <span>Pharmacy</span>
+        </button>
+        <button class="nav-btn" data-screen="profile">
+            <span class="material-icons">person</span>
+            <span>Profile</span>
+        </button>
+    </nav>
 
-<footer>
-  &copy; 2025 Chorkor Mobile Doctor. All rights reserved.
-</footer>
+    <!-- ===== MODALS ===== -->
+    <!-- Learn More Modal -->
+    <div class="modal" id="learnMoreModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>About Chorkor Mobile Doctor</h2>
+                <button class="close-btn" id="closeLearnMoreModal">&times;</button>
+            </div>
+            <div>
+                <h3>Healthcare Information</h3>
+                <p>
+                    Chorkor Mobile Doctor is dedicated to providing accessible healthcare solutions, medical advice, and medicine delivery to your doorstep. Our platform empowers users to track their health, consult with professionals, and stay informed about healthy living.
+                </p>
+                <h3>Our Services</h3>
+                <ul style="margin-bottom: 20px;">
+                    <li>24/7 access to health information</li>
+                    <li>Medicine delivery within Chorkor and James Town</li>
+                    <li>Health tracking and monitoring</li>
+                    <li>First aid and emergency tips</li>
+                    <li>Personalized health recommendations</li>
+                </ul>
+                <h3>General Manager</h3>
+                <p>
+                    <strong>Morgan</strong> is the General Manager of this project. With a passion for digital health and community well-being, Morgan leads the team to ensure quality service and innovation for all users.
+                </p>
+            </div>
+        </div>
+    </div>
 
+    <!-- First Aid Modal -->
+    <div class="modal" id="firstAidModal">
+        <div class="modal-content" style="max-width:350px;">
+            <div class="modal-header">
+                <h3>First Aid Tips</h3>
+                <button class="close-btn" id="closeFirstAidModal">&times;</button>
+            </div>
+            <ul style="padding-left:18px;">
+                <li><b>Burns:</b> Cool the burn under running water for 10 minutes.</li>
+                <li><b>Bleeding:</b> Apply pressure with a clean cloth to stop bleeding.</li>
+                <li><b>Choking:</b> Encourage coughing; if not breathing, call emergency services.</li>
+                <li><b>Fainting:</b> Lay the person down and raise their legs.</li>
+                <li><b>Sprains:</b> Rest, ice, compress, and elevate the injured area.</li>
+                <li><b>Heat exhaustion:</b> Move to cool place, hydrate, and rest.</li>
+                <li><b>Seizures:</b> Clear area, don't restrain, time the seizure.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="close-btn" id="closeEditProfileModal">&times;</button>
+            </div>
+            <div class="edit-profile-form">
+                <div class="input-group">
+                    <label for="editName">Name</label>
+                    <input type="text" id="editName" placeholder="Enter your name">
+                </div>
+                <div class="input-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" placeholder="Enter your email">
+                </div>
+                <div class="input-group">
+                    <label for="editPhone">Phone</label>
+                    <input type="tel" id="editPhone" placeholder="Enter your phone number">
+                </div>
+                <div class="input-group">
+                    <label for="editLocation">Location</label>
+                    <input type="text" id="editLocation" placeholder="Enter your location">
+                </div>
+                <button class="btn btn-primary save-profile-btn" id="saveProfileBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Change Password</h2>
+                <button class="close-btn" id="closeChangePasswordModal">&times;</button>
+            </div>
+            <div>
+                <div class="input-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter current password">
+                </div>
+                <div class="input-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password">
+                </div>
+                <div class="input-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                </div>
+                <button class="btn btn-primary" id="savePasswordBtn" style="width:100%;margin-top:10px;">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div class="modal" id="userDetailsModal">
+        <div class="modal-content user-details-modal">
+            <div class="modal-header">
+                <h2>User Details</h2>
+                <button class="close-btn" id="closeUserDetailsModal">&times;</button>
+            </div>
+            <div class="user-details-content">
+                <div class="user-details-avatar" id="modalUserAvatar">AD</div>
+                <h3 id="modalUserName">Admin User</h3>
+                <p id="modalUserEmail">admin@example.com</p>
+                <div style="width:100%; margin-top:15px;">
+                    <p><strong>Phone:</strong> <span id="modalUserPhone">+233 24 000 0000</span></p>
+                    <p><strong>Location:</strong> <span id="modalUserLocation">Chorkor, Accra</span></p>
+                    <p><strong>Member Since:</strong> <span id="modalUserSince">2024</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Support Modal -->
+    <div class="modal" id="contactSupportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Contact Support</h2>
+                <button class="close-btn" id="closeContactSupportModal">&times;</button>
+            </div>
+            <div>
+                <div class="input-group">
+                    <label for="supportSubject">Subject</label>
+                    <input type="text" id="supportSubject" placeholder="Enter subject">
+                </div>
+                <div class="input-group">
+                    <label for="supportMessage">Message</label>
+                    <textarea id="supportMessage" placeholder="Enter your message" style="width:100%; padding:14px 16px; border:2px solid #e0e0e0; border-radius:8px; font-size:16px; min-height:120px;"></textarea>
+                </div>
+                <button class="btn btn-primary" id="sendSupportBtn" style="width:100%;margin-top:10px;">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Congratulations Message -->
+    <div class="congrats-message" id="congratsMessage">
+        <h3>Congratulations! 🎉</h3>
+        <p>You've reached your daily step goal!</p>
+        <p>Keep up the good work!</p>
+    </div>
+
+    <script>
+        // ===== GLOBAL VARIABLES =====
+        const pharmacyProducts = [
+            { name: "Paracetamol", price: 2.5, img: "https://m.media-amazon.com/images/I/61WZQx+8QQL._AC_UF1000,1000_QL80_.jpg" },
+            { name: "Amoxicillin", price: 8, img: "https://5.imimg.com/data5/SELLER/Default/2021/12/QT/YC/JA/3033603/amoxicillin-500mg-capsule.jpg" },
+            { name: "Cough Syrup", price: 6, img: "https://5.imimg.com/data5/SELLER/Default/2023/7/324003269/ZQ/JL/VH/199459556/benadryl-cough-syrup-100ml.jpg" },
+            { name: "Vitamin C", price: 4, img: "https://m.media-amazon.com/images/I/71UwSHSZRnS.jpg" },
+            { name: "Ibuprofen", price: 3, img: "https://www.medexpress.co.uk/media/catalog/product/cache/8d7d6a38e66e8a676a70b0c6b8aaf6a9/i/b/ibuprofen_200mg_tablets.jpg" },
+            { name: "Flagyl", price: 5, img: "https://5.imimg.com/data5/SELLER/Default/2021/12/QT/YC/JA/3033603/metronidazole-400mg-tablets.jpg" },
+            { name: "ORS Sachet", price: 1.5, img: "https://5.imimg.com/data5/SELLER/Default/2023/3/295689240/PP/ZT/QC/199459556/oral-rehydration-salt.jpg" },
+            { name: "Chloroquine", price: 2, img: "https://5.imimg.com/data5/SELLER/Default/2022/4/RA/IB/GT/3033603/chloroquine-phosphate-250-mg-tablets.jpg" },
+            { name: "Coartem", price: 12, img: "https://www.drugs.com/images/pills/fio/AFR00013/coartem.JPG" },
+            { name: "Zinc Tablets", price: 3, img: "https://5.imimg.com/data5/SELLER/Default/2021/12/QT/YC/JA/3033603/zinc-sulphate-tablets-ip.jpg" }
+        ];
+        
+        let cart = [];
+        let userData = {
+            name: "",
+            email: "",
+            phone: "+233 24 000 0000",
+            location: "Chorkor, Accra",
+            memberSince: "2024",
+            lastLogin: "Today"
+        };
+
+        // Step target variables
+        const stepGoal = 8000;
+        let currentSteps = 5240;
+
+        // ===== AUTHENTICATION FUNCTIONS =====
+        document.getElementById('loginBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            // Simple validation - accept any non-empty credentials
+            if (username && password) {
+                userData.email = username;
+                if (!userData.name) {
+                    userData.name = username.split('@')[0];
+                }
+                showApp();
+            } else {
+                // Add shake animation to form
+                document.querySelector('.auth-card').classList.add('shake');
+                setTimeout(() => {
+                    document.querySelector('.auth-card').classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        document.getElementById('signupBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            
+            // Simple validation - accept any non-empty credentials
+            if (name && email && password) {
+                userData.name = name;
+                userData.email = email;
+                showApp();
+            } else {
+                // Add shake animation to form
+                document.querySelector('.auth-card').classList.add('shake');
+                setTimeout(() => {
+                    document.querySelector('.auth-card').classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        document.getElementById('showSignup').addEventListener('click', showSignupScreen);
+        document.getElementById('showLogin').addEventListener('click', showLoginScreen);
+
+        function showSignupScreen(e) {
+            e.preventDefault();
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('signupScreen').classList.remove('hidden');
+        }
+
+        function showLoginScreen(e) {
+            e.preventDefault();
+            document.getElementById('signupScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        // ===== APP NAVIGATION =====
+        function showApp() {
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('signupScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            
+            // Set user data
+            updateUserDisplay();
+            
+            // Initialize step progress
+            updateStepProgress();
+        }
+
+        // Bottom nav click handlers
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show selected screen
+                const screen = this.getAttribute('data-screen');
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('pharmacyScreen').classList.add('hidden');
+                document.getElementById('profileScreen').classList.add('hidden');
+                
+                if (screen === 'dashboard') {
+                    document.getElementById('dashboard').classList.remove('hidden');
+                } else if (screen === 'pharmacy') {
+                    document.getElementById('pharmacyScreen').classList.remove('hidden');
+                    renderPharmacyProducts();
+                } else if (screen === 'profile') {
+                    document.getElementById('profileScreen').classList.remove('hidden');
+                }
+            });
+        });
+
+        // Show login page when "Get Started" is clicked
+        document.getElementById('getStartedBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Hide all app screens and nav
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pharmacyScreen').classList.add('hidden');
+            document.getElementById('profileScreen').classList.add('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+            
+            // Show the hero section (homepage)
+            document.getElementById('heroSection').classList.remove('hidden');
+            
+            // Reset nav to dashboard
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-screen') === 'dashboard') {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Clear form fields
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+        });
+
+        // ===== USER PROFILE FUNCTIONS =====
+        function updateUserDisplay() {
+            const initial = userData.name ? userData.name.charAt(0).toUpperCase() : 
+                          userData.email ? userData.email.charAt(0).toUpperCase() : 'A';
+            
+            // Update avatars
+            document.getElementById('userAvatar').textContent = initial;
+            document.getElementById('pharmacyUserAvatar').textContent = initial;
+            document.getElementById('profileAvatar').textContent = initial;
+            document.getElementById('modalUserAvatar').textContent = initial;
+            
+            // Update profile info
+            document.getElementById('profileName').textContent = userData.name || 'User';
+            document.getElementById('profileEmail').textContent = userData.email || 'user@example.com';
+            document.getElementById('profilePhone').textContent = userData.phone;
+            document.getElementById('profileLocation').textContent = userData.location;
+            document.getElementById('profileSince').textContent = userData.memberSince;
+            document.getElementById('profileLastLogin').textContent = userData.lastLogin;
+            
+            // Update modal info
+            document.getElementById('modalUserName').textContent = userData.name || 'User';
+            document.getElementById('modalUserEmail').textContent = userData.email || 'user@example.com';
+            document.getElementById('modalUserPhone').textContent = userData.phone;
+            document.getElementById('modalUserLocation').textContent = userData.location;
+            document.getElementById('modalUserSince').textContent = userData.memberSince;
+        }
+
+        // Edit profile functionality
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            document.getElementById('editProfileModal').classList.add('active');
+            document.getElementById('editName').value = userData.name;
+            document.getElementById('editEmail').value = userData.email;
+            document.getElementById('editPhone').value = userData.phone;
+            document.getElementById('editLocation').value = userData.location;
+        });
+
+        document.getElementById('closeEditProfileModal').addEventListener('click', function() {
+            document.getElementById('editProfileModal').classList.remove('active');
+        });
+
+        document.getElementById('editProfileModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        document.getElementById('saveProfileBtn').addEventListener('click', function() {
+            userData.name = document.getElementById('editName').value.trim();
+            userData.email = document.getElementById('editEmail').value.trim();
+            userData.phone = document.getElementById('editPhone').value.trim();
+            userData.location = document.getElementById('editLocation').value.trim();
+            
+            updateUserDisplay();
+            document.getElementById('editProfileModal').classList.remove('active');
+            
+            // Update step count display with new initial if name changed
+            const initial = userData.name ? userData.name.charAt(0).toUpperCase() : 
+                          userData.email ? userData.email.charAt(0).toUpperCase() : 'A';
+            document.getElementById('userAvatar').textContent = initial;
+            document.getElementById('pharmacyUserAvatar').textContent = initial;
+            document.getElementById('profileAvatar').textContent = initial;
+            document.getElementById('modalUserAvatar').textContent = initial;
+        });
+
+        // Change password functionality
+        document.getElementById('changePasswordBtn').addEventListener('click', function() {
+            document.getElementById('changePasswordModal').classList.add('active');
+        });
+
+        document.getElementById('closeChangePasswordModal').addEventListener('click', function() {
+            document.getElementById('changePasswordModal').classList.remove('active');
+        });
+
+        document.getElementById('changePasswordModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        document.getElementById('savePasswordBtn').addEventListener('click', function() {
+            const currentPass = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            
+            if (!currentPass || !newPass || !confirmPass) {
+                alert("Please fill in all fields");
+                return;
+            }
+            
+            if (newPass !== confirmPass) {
+                alert("New passwords don't match");
+                return;
+            }
+            
+            // In a real app, you would verify current password and update it
+            alert("Password changed successfully!");
+            document.getElementById('changePasswordModal').classList.remove('active');
+            
+            // Clear fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        });
+
+        // Contact support functionality
+        document.getElementById('contactSupportBtn').addEventListener('click', function() {
+            document.getElementById('contactSupportModal').classList.add('active');
+        });
+
+        document.getElementById('closeContactSupportModal').addEventListener('click', function() {
+            document.getElementById('contactSupportModal').classList.remove('active');
+        });
+
+        document.getElementById('contactSupportModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        document.getElementById('sendSupportBtn').addEventListener('click', function() {
+            const subject = document.getElementById('supportSubject').value.trim();
+            const message = document.getElementById('supportMessage').value.trim();
+            
+            if (!subject || !message) {
+                alert("Please fill in all fields");
+                return;
+            }
+            
+            alert("Your message has been sent to support. We'll get back to you soon!");
+            document.getElementById('contactSupportModal').classList.remove('active');
+            
+            // Clear fields
+            document.getElementById('supportSubject').value = '';
+            document.getElementById('supportMessage').value = '';
+        });
+
+        // User avatar click to show details
+        document.querySelectorAll('.user-avatar').forEach(avatar => {
+            avatar.addEventListener('click', function() {
+                document.getElementById('userDetailsModal').classList.add('active');
+            });
+        });
+
+        document.getElementById('closeUserDetailsModal').addEventListener('click', function() {
+            document.getElementById('userDetailsModal').classList.remove('active');
+        });
+
+        document.getElementById('userDetailsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // ===== PHARMACY FUNCTIONS =====
+        function renderPharmacyProducts() {
+            const container = document.getElementById('pharmacyProducts');
+            container.innerHTML = '';
+            
+            pharmacyProducts.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'pharmacy-product-card';
+                card.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <div style="font-weight:600; margin-bottom:4px;">${product.name}</div>
+                    <div style="color:#2D7BFB; font-weight:500; margin-bottom:8px;">GHS ${product.price.toFixed(2)}</div>
+                    <button class="btn btn-primary" data-index="${index}" style="width:100%;">Add to Cart</button>
+                `;
+                container.appendChild(card);
+                
+                // Add event listener to the button
+                card.querySelector('button').addEventListener('click', () => addToCart(index));
+            });
+        }
+
+        function addToCart(index) {
+            const product = pharmacyProducts[index];
+            const existingItem = cart.find(item => item.name === product.name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                });
+            }
+            
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartList = document.getElementById('cartList');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartList.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                
+                const li = document.createElement('li');
+                li.style = "display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;";
+                li.innerHTML = `
+                    <span>${item.name} <span style="color:#888;">x${item.quantity}</span></span>
+                    <span>
+                        <button style="background:none;border:none;color:#2D7BFB;font-size:18px;cursor:pointer;" data-index="${index}">&times;</button>
+                    </span>
+                `;
+                cartList.appendChild(li);
+                
+                // Add event listener to remove button
+                li.querySelector('button').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeFromCart(index);
+                });
+            });
+            
+            cartTotal.textContent = `GHS ${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        document.getElementById('checkoutBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            
+            alert("Order placed! Your medicines will be delivered soon.");
+            cart = [];
+            renderCart();
+        });
+
+        document.getElementById('trackOrderBtn').addEventListener('click', function() {
+            alert("Your order is being processed and will be delivered soon!");
+        });
+
+        // ===== HEALTH TRACKING FUNCTIONS =====
+        function updateStepProgress() {
+            const progressBar = document.getElementById('stepProgressBar');
+            const progressPercentage = Math.min((currentSteps / stepGoal) * 100, 100);
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            const targetMessage = document.getElementById('stepTargetMessage');
+            if (currentSteps >= stepGoal) {
+                targetMessage.style.opacity = '1';
+            } else {
+                targetMessage.style.opacity = '0';
+            }
+        }
+
+        // Make stats clickable to increase values
+        document.getElementById('distanceStat').addEventListener('click', function() {
+            const valueElement = this.querySelector('.stat-value');
+            let value = parseFloat(valueElement.textContent.split(' ')[0]);
+            value += 0.5;
+            valueElement.textContent = `${value.toFixed(1)} km`;
+            
+            // Also increase steps
+            currentSteps += 1000;
+            document.querySelector('.step-count').textContent = currentSteps.toLocaleString();
+            updateStepProgress();
+            
+            // Check if step goal reached
+            if (currentSteps >= stepGoal && currentSteps - 1000 < stepGoal) {
+                showCongratsMessage();
+            }
+        });
+
+        document.getElementById('caloriesStat').addEventListener('click', function() {
+            const valueElement = this.querySelector('.stat-value');
+            let value = parseInt(valueElement.textContent);
+            value += 50;
+            valueElement.textContent = value;
+        });
+
+        document.getElementById('sleepStat').addEventListener('click', function() {
+            const valueElement = this.querySelector('.stat-value');
+            const parts = valueElement.textContent.split(' ');
+            let hours = parseInt(parts[0].split('h')[0]);
+            let minutes = parseInt(parts[1].split('m')[0]);
+            
+            minutes += 15;
+            if (minutes >= 60) {
+                hours += 1;
+                minutes -= 60;
+            }
+            
+            valueElement.textContent = `${hours}h ${minutes}m`;
+        });
+
+        document.getElementById('heartRateStat').addEventListener('click', function() {
+            const valueElement = this.querySelector('.stat-value');
+            let value = parseInt(valueElement.textContent);
+            // Simulate heart rate variability
+            value = Math.max(60, Math.min(100, value + (Math.random() > 0.5 ? 2 : -2)));
+            valueElement.textContent = value;
+        });
+
+        // Make health tips clickable
+        document.querySelectorAll('.health-tip').forEach(tip => {
+            tip.addEventListener('click', function() {
+                const tipText = this.querySelector('span:last-child').textContent;
+                alert(`You selected: ${tipText}\n\nWe'll remind you about this later!`);
+            });
+        });
+
+        // ===== CONGRATULATION MESSAGE =====
+        function showCongratsMessage() {
+            const congratsMessage = document.getElementById('congratsMessage');
+            congratsMessage.classList.add('active');
+            
+            // Create confetti effect
+            createConfetti();
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                congratsMessage.classList.remove('active');
+            }, 5000);
+        }
+
+        function createConfetti() {
+            const colors = ['#2D7BFB', '#4CAF50', '#FFC107', '#FF5252', '#9C27B0'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = '-10px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                document.body.appendChild(confetti);
+                
+                // Animate confetti
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.transition = `all ${animationDuration}s linear`;
+                
+                setTimeout(() => {
+                    confetti.style.opacity = '1';
+                    confetti.style.top = `${Math.random() * 100 + 100}%`;
+                    confetti.style.left = `${Math.random() * 20 - 10 + parseFloat(confetti.style.left)}%`;
+                }, 10);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, animationDuration * 1000);
+            }
+        }
+
+        // ===== MODAL FUNCTIONS =====
+        document.getElementById('learnMoreBtn').addEventListener('click', function() {
+            document.getElementById('learnMoreModal').classList.add('active');
+        });
+
+        document.getElementById('closeLearnMoreModal').addEventListener('click', function() {
+            document.getElementById('learnMoreModal').classList.remove('active');
+        });
+
+        document.getElementById('learnMoreModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        document.getElementById('symptomBtn').addEventListener('click', function() {
+            document.getElementById('firstAidModal').classList.add('active');
+        });
+
+        document.getElementById('closeFirstAidModal').addEventListener('click', function() {
+            document.getElementById('firstAidModal').classList.remove('active');
+        });
+
+        document.getElementById('firstAidModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set dashboard as default active screen
+            document.querySelector('[data-screen="dashboard"]').classList.add('active');
+            
+            // Initialize pharmacy products
+            renderPharmacyProducts();
+        });
+    </script>
 </body>
 </html>
