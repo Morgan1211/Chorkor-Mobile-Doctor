@@ -918,6 +918,55 @@
             color: white;
         }
 
+        /* ===== NURSE STYLES ===== */
+        .nurse-service-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            height: 180px;
+        }
+
+        .nurse-service-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .nurse-service-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .nurse-service-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            z-index: 3;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .nurse-service-subtitle {
+            font-size: 16px;
+            z-index: 3;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
             .hero-buttons {
@@ -1244,7 +1293,7 @@
                 </div>
                 <div class="service-option" id="bookDoctorBtn">
                     <span class="material-icons" style="font-size: 36px; margin-bottom: 8px;">person</span>
-                    <div>Book a Doctor</div>
+                    <div>Specialist Appointment</div>
                 </div>
             </div>
         </div>
@@ -1361,7 +1410,14 @@
             <div class="user-avatar" id="bookNurseAvatar">AD</div>
         </div>
         <div class="health-card" style="max-width:600px; margin:auto;">
-            <h3>Nursing Services</h3>
+            <div class="nurse-service-header">
+                <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Nursing Services" class="nurse-service-image">
+                <div class="nurse-service-overlay">
+                    <h3 class="nurse-service-title">Nursing Services</h3>
+                    <p class="nurse-service-subtitle">Professional care at your doorstep</p>
+                </div>
+            </div>
+            
             <p>Book a qualified nurse to attend to your sick loved one at home. Our nurses can provide:</p>
             <ul style="margin: 15px 0 15px 20px;">
                 <li>Basic medical care</li>
@@ -1406,12 +1462,12 @@
     <!-- ===== BOOK DOCTOR SCREEN ===== -->
     <div class="dashboard hidden" id="bookDoctorScreen">
         <div class="header">
-            <h2>Book a Doctor</h2>
+            <h2>Specialist Appointment</h2>
             <div class="user-avatar" id="bookDoctorAvatar">AD</div>
         </div>
         <div class="health-card" style="max-width:800px; margin:auto;">
-            <h3>Available Doctors</h3>
-            <p>Select from our team of qualified doctors for a consultation:</p>
+            <h3>Available Specialists</h3>
+            <p>Select from our team of qualified specialists for a consultation:</p>
             
             <div class="doctors-grid" id="doctorsGrid">
                 <!-- Doctors will be added here by JavaScript -->
