@@ -1405,10 +1405,14 @@
 
     <!-- ===== BOOK NURSE SCREEN ===== -->
     <div class="dashboard hidden" id="bookNurseScreen">
-        <div class="header">
-            <h2>Book a Nurse</h2>
-            <div class="user-avatar" id="bookNurseAvatar">AD</div>
-        </div>
+    <div class="header" style="position: relative;">
+        <button class="btn btn-secondary" id="backFromNurseBtn" style="position: absolute; left: 20px; padding: 8px 12px;">
+            <span class="material-icons">arrow_back</span>
+            Back
+        </button>
+        <h2 style="text-align: center;">Book a Nurse</h2>
+        <div class="user-avatar" id="bookNurseAvatar">AD</div>
+    </div>
         <div class="health-card" style="max-width:600px; margin:auto;">
             <div class="nurse-service-header">
                 <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Nursing Services" class="nurse-service-image">
@@ -1461,10 +1465,14 @@
 
     <!-- ===== BOOK DOCTOR SCREEN ===== -->
     <div class="dashboard hidden" id="bookDoctorScreen">
-        <div class="header">
-            <h2>Specialist Appointment</h2>
-            <div class="user-avatar" id="bookDoctorAvatar">AD</div>
-        </div>
+    <div class="header" style="position: relative;">
+        <button class="btn btn-secondary" id="backFromDoctorBtn" style="position: absolute; left: 20px; padding: 8px 12px;">
+            <span class="material-icons">arrow_back</span>
+            Back
+        </button>
+        <h2 style="text-align: center;">Specialist Appointment</h2>
+        <div class="user-avatar" id="bookDoctorAvatar">AD</div>
+    </div>
         <div class="health-card" style="max-width:800px; margin:auto;">
             <h3>Available Specialists</h3>
             <p>Select from our team of qualified specialists for a consultation:</p>
@@ -2762,6 +2770,36 @@
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
+            // Return button for nurse booking
+document.getElementById('backFromNurseBtn').addEventListener('click', function() {
+    document.getElementById('bookNurseScreen').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    
+    // Reset nav to dashboard
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-screen') === 'dashboard') {
+            btn.classList.add('active');
+        }
+    });
+});
+
+// Return button for doctor booking
+document.getElementById('backFromDoctorBtn').addEventListener('click', function() {
+    document.getElementById('bookDoctorScreen').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    
+    // Reset nav to dashboard
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-screen') === 'dashboard') {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Clear form if open
+    document.getElementById('doctorBookingForm').style.display = 'none';
+});
             // Set dashboard as default active screen
             document.querySelector('[data-screen="dashboard"]').classList.add('active');
             
@@ -2772,5 +2810,6 @@
             renderDoctors();
         });
     </script>
+    
 </body>
 </html>
