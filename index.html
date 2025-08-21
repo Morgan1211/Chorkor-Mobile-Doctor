@@ -729,7 +729,7 @@
 
         /* ===== AI ASSISTANT STYLES ===== */
         .ai-assistant-modal {
-            max-width: 500px;
+            max-width: 800px;
         }
 
         .symptoms-input {
@@ -1105,6 +1105,159 @@
             flex-direction: column;
             gap: 10px;
             margin-top: 20px;
+        }
+        
+        /* AI Assistant Styles */
+        .symptom-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .symptom-tag {
+            padding: 8px 15px;
+            background: #eef5ff;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .symptom-tag:hover {
+            background: #2D7BFB;
+            color: white;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2D7BFB;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .ai-thinking {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .condition-probability {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .probability-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 8px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .probability-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #2D7BFB 0%, #1A5FC1 100%);
+            transition: width 1s ease-in-out;
+        }
+        
+        .probability-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #495057;
+        }
+        
+        .probability-value {
+            font-weight: 600;
+            color: #1A5FC1;
+        }
+        
+        .severity-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f0f6ff;
+        }
+        
+        .severity-label {
+            font-weight: 600;
+            margin-right: 10px;
+            color: #1A5FC1;
+        }
+        
+        .severity-value {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .severity-low {
+            background: #e6f7e6;
+            color: #2e7d32;
+        }
+        
+        .severity-moderate {
+            background: #fff8e1;
+            color: #f57c00;
+        }
+        
+        .severity-high {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .recommended-meds {
+            margin: 15px 0;
+        }
+        
+        .med-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .med-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .med-dosage {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .disclaimer {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -1767,16 +1920,57 @@
                 <button class="close-btn" id="closeAIAssistantModal">&times;</button>
             </div>
             <div>
-                <p>Describe your symptoms and our AI will suggest possible medications (consult a real doctor for serious conditions).</p>
-                <textarea class="symptoms-input" id="symptomsInput" placeholder="Enter your symptoms here... For example: headache, fever, cough for 3 days"></textarea>
-                <button class="btn btn-primary" id="analyzeSymptomsBtn" style="width:100%;">Analyze Symptoms</button>
+                <p class="intro-text">Describe your symptoms in detail and our AI will analyze them to provide personalized health recommendations. For serious conditions, please consult a healthcare professional immediately.</p>
+                
+                <div class="symptom-tags">
+                    <div class="symptom-tag" data-symptom="headache">Headache</div>
+                    <div class="symptom-tag" data-symptom="fever">Fever</div>
+                    <div class="symptom-tag" data-symptom="cough">Cough</div>
+                    <div class="symptom-tag" data-symptom="sore throat">Sore Throat</div>
+                    <div class="symptom-tag" data-symptom="nausea">Nausea</div>
+                    <div class="symptom-tag" data-symptom="fatigue">Fatigue</div>
+                </div>
+                
+                <textarea class="symptoms-input" id="symptomsInput" placeholder="Describe your symptoms in detail. Include information like: 
+- When did the symptoms start?
+- How severe are they (on a scale of 1-10)?
+- What makes them better or worse?
+- Any other symptoms you're experiencing?
+- Any medications you're currently taking?"></textarea>
+                
+                <button class="btn btn-primary" id="analyzeSymptomsBtn">Analyze Symptoms</button>
+                
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p class="ai-thinking">Analyzing your symptoms with our medical AI...</p>
+                </div>
                 
                 <div class="prescription-result" id="prescriptionResult">
-                    <h3 style="margin-bottom:10px;">Suggested Treatment</h3>
-                    <p id="prescriptionText"></p>
-                    <div id="recommendedMeds"></div>
-                    <button class="btn btn-secondary" id="addToCartBtn" style="width:100%;margin-top:15px;">Add Recommended to Cart</button>
-                    <p style="margin-top:15px;font-size:14px;color:#666;"><strong>Note:</strong> This is not a substitute for professional medical advice. Consult a doctor for serious symptoms.</p>
+                    <h3>Health Assessment</h3>
+                    
+                    <div class="severity-indicator">
+                        <span class="severity-label">Condition Severity:</span>
+                        <span class="severity-value severity-moderate" id="severityLevel">Moderate</span>
+                    </div>
+                    
+                    <div class="condition-probability">
+                        <h4 style="margin-bottom: 10px; color: #1A5FC1;">Possible Conditions</h4>
+                        <div id="conditionProbabilities"></div>
+                    </div>
+                    
+                    <div class="prescription-text" id="prescriptionText">
+                        Based on your symptoms, our analysis suggests you may be experiencing a common respiratory infection. The symptoms appear to be moderate in severity and likely not an emergency, but should be monitored.
+                    </div>
+                    
+                    <h4 style="margin: 15px 0 10px; color: #1A5FC1;">Recommended Actions</h4>
+                    <div id="recommendedActions"></div>
+                    
+                    <h4 style="margin: 15px 0 10px; color: #1A5FC1;">Suggested Medications</h4>
+                    <div class="recommended-meds" id="recommendedMeds"></div>
+                    
+                    <button class="btn btn-secondary" id="addToCartBtn">Add Recommended to Cart</button>
+                    
+                    <p class="disclaimer"><strong>Important Disclaimer:</strong> This AI assistant is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read here.</p>
                 </div>
             </div>
         </div>
@@ -1810,7 +2004,7 @@
             {
                 name: "Dr. Abigail Adjei",
                 specialty: "General Practitioner",
-                bio: "With over 15 years of experience in family medicine, Dr. Mensah provides comprehensive care for all ages.",
+                bio: "With over 15 years of experience in family medicine, Dr. Abigail provides comprehensive care for all ages.",
                 img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
                 location: "Chorkor Health Center",
                 available: ["Mon", "Wed", "Fri"]
@@ -1818,7 +2012,7 @@
             {
                 name: "Dr. Morgan Freeman",
                 specialty: "Pediatrician",
-                bio: "Specializing in child health, Dr. Asante is passionate about preventive care and childhood vaccinations.",
+                bio: "Specializing in child health, Dr. Morgan is passionate about preventive care and childhood vaccinations.",
                 img: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80",
                 location: "James Town Clinic",
                 available: ["Tue", "Thu", "Sat"]
@@ -1863,46 +2057,154 @@
         const stepGoal = 8000;
         let currentSteps = 5240;
 
-        // AI Prescription database
-        const symptomDatabase = {
-            "headache": {
-                description: "Possible tension headache or migraine",
-                recommendation: "Rest in a quiet, dark room. Apply a cool compress to your forehead.",
-                medications: [
-                    { name: "Paracetamol", dosage: "500mg every 6 hours as needed" },
-                    { name: "Ibuprofen", dosage: "200-400mg every 6-8 hours as needed" }
-                ]
+        // Medical knowledge database for AI Assistant
+        const medicalDatabase = {
+            conditions: {
+                migraine: {
+                    symptoms: ['headache', 'nausea', 'sensitivity to light', 'sensitivity to sound'],
+                    severity: 'moderate',
+                    description: 'A neurological condition characterized by intense headaches often accompanied by nausea and sensitivity to light/sound.',
+                    actions: [
+                        'Rest in a quiet, dark room',
+                        'Apply a cold compress to forehead or neck',
+                        'Stay hydrated',
+                        'Avoid triggers like bright lights, strong smells, or certain foods'
+                    ],
+                    medications: [
+                        { name: 'Ibuprofen', dosage: '400-600mg every 6 hours as needed for pain' },
+                        { name: 'Acetaminophen', dosage: '500-1000mg every 6 hours as needed' },
+                        { name: 'Aspirin', dosage: '650-1000mg every 4 hours as needed' }
+                    ]
+                },
+                commonCold: {
+                    symptoms: ['cough', 'sore throat', 'runny nose', 'sneezing', 'congestion', 'mild headache'],
+                    severity: 'low',
+                    description: 'A viral infection of the upper respiratory tract characterized by mild symptoms that typically resolve within 7-10 days.',
+                    actions: [
+                        'Get plenty of rest',
+                        'Stay hydrated with water, broth, or electrolyte solutions',
+                        'Use a humidifier to ease congestion',
+                        'Gargle with salt water for sore throat relief'
+                    ],
+                    medications: [
+                        { name: 'Decongestant (Pseudoephedrine)', dosage: 'As directed on package for congestion' },
+                        { name: 'Antihistamine (Diphenhydramine)', dosage: 'As directed on package for runny nose' },
+                        { name: 'Cough suppressant (Dextromethorphan)', dosage: 'As directed on package for cough' }
+                    ]
+                },
+                influenza: {
+                    symptoms: ['fever', 'cough', 'sore throat', 'runny nose', 'body aches', 'headache', 'fatigue'],
+                    severity: 'moderate',
+                    description: 'A contagious respiratory illness caused by influenza viruses that infect the nose, throat, and sometimes the lungs.',
+                    actions: [
+                        'Get plenty of rest',
+                        'Drink fluids to prevent dehydration',
+                        'Take over-the-counter medications to reduce fever and relieve aches',
+                        'Consider antiviral medications if started within 48 hours of symptoms'
+                    ],
+                    medications: [
+                        { name: 'Oseltamivir (Tamiflu)', dosage: 'As prescribed by a doctor (if started early)' },
+                        { name: 'Acetaminophen', dosage: '500-1000mg every 6 hours for fever and aches' },
+                        { name: 'Ibuprofen', dosage: '400-600mg every 6 hours for fever and aches' }
+                    ]
+                },
+                sinusitis: {
+                    symptoms: ['facial pain', 'headache', 'nasal congestion', 'thick nasal discharge', 'cough', 'fatigue'],
+                    severity: 'moderate',
+                    description: 'Inflammation or swelling of the tissue lining the sinuses, often caused by infection.',
+                    actions: [
+                        'Apply warm compresses to face to ease pain',
+                        'Use saline nasal spray to rinse nasal passages',
+                        'Inhale steam from a bowl of hot water or shower',
+                        'Stay hydrated to thin mucus secretions'
+                    ],
+                    medications: [
+                        { name: 'Decongestant (Pseudoephedrine)', dosage: 'As directed on package' },
+                        { name: 'Nasal corticosteroid spray', dosage: 'As directed on package' },
+                        { name: 'Pain reliever (Ibuprofen or Acetaminophen)', dosage: 'As directed on package for pain' }
+                    ]
+                },
+                allergicRhinitis: {
+                    symptoms: ['sneezing', 'runny nose', 'itchy eyes', 'nasal congestion', 'postnasal drip'],
+                    severity: 'low',
+                    description: 'An allergic response causing inflammation in the nose, often triggered by allergens like pollen, dust, or pet dander.',
+                    actions: [
+                        'Avoid known allergens when possible',
+                        'Use air purifiers with HEPA filters',
+                        'Keep windows closed during high pollen seasons',
+                        'Shower after being outdoors to remove pollen'
+                    ],
+                    medications: [
+                        { name: 'Antihistamine (Loratadine or Cetirizine)', dosage: 'As directed on package' },
+                        { name: 'Nasal corticosteroid spray', dosage: 'As directed on package' },
+                        { name: 'Decongestant (Pseudoephedrine)', dosage: 'As directed on package for congestion' }
+                    ]
+                },
+                gastroenteritis: {
+                    symptoms: ['nausea', 'vomiting', 'diarrhea', 'abdominal cramps', 'fever', 'headache'],
+                    severity: 'moderate',
+                    description: 'Inflammation of the stomach and intestines, typically resulting from a viral or bacterial infection.',
+                    actions: [
+                        'Stay hydrated with electrolyte solutions',
+                        'Follow the BRAT diet (bananas, rice, applesauce, toast)',
+                        'Avoid dairy products, caffeine, and fatty foods',
+                        'Get plenty of rest'
+                    ],
+                    medications: [
+                        { name: 'Oral rehydration solution', dosage: 'As needed to maintain hydration' },
+                        { name: 'Anti-diarrheal (Loperamide)', dosage: 'As directed on package for adults only' },
+                        { name: 'Acetaminophen', dosage: '500-1000mg every 6 hours for fever or headache' }
+                    ]
+                },
+                anxiety: {
+                    symptoms: ['nervousness', 'restlessness', 'increased heart rate', 'rapid breathing', 'sweating', 'trembling', 'fatigue', 'difficulty concentrating'],
+                    severity: 'moderate',
+                    description: 'A mental health disorder characterized by feelings of worry, anxiety, or fear that are strong enough to interfere with daily activities.',
+                    actions: [
+                        'Practice deep breathing exercises',
+                        'Try meditation or mindfulness techniques',
+                        'Limit caffeine intake',
+                        'Establish a regular sleep schedule',
+                        'Consider talking to a mental health professional'
+                    ],
+                    medications: [
+                        { name: 'Consult a healthcare provider for appropriate treatment options', dosage: '' }
+                    ]
+                },
+                hypertension: {
+                    symptoms: ['headache', 'shortness of breath', 'nosebleeds', 'flushing', 'dizziness', 'chest pain'],
+                    severity: 'high',
+                    description: 'A condition in which the force of the blood against the artery walls is too high, potentially leading to health problems.',
+                    actions: [
+                        'Monitor blood pressure regularly',
+                        'Reduce sodium intake',
+                        'Exercise regularly',
+                        'Maintain a healthy weight',
+                        'Limit alcohol consumption',
+                        'Consult a healthcare provider for proper management'
+                    ],
+                    medications: [
+                        { name: 'Consult a healthcare provider for appropriate antihypertensive medications', dosage: '' }
+                    ]
+                }
             },
-            "fever": {
-                description: "Possible infection or inflammatory condition",
-                recommendation: "Stay hydrated and rest. Monitor temperature regularly.",
-                medications: [
-                    { name: "Paracetamol", dosage: "500mg every 6 hours as needed" },
-                    { name: "Ibuprofen", dosage: "200-400mg every 6-8 hours as needed" }
-                ]
-            },
-            "cough": {
-                description: "Possible respiratory infection or irritation",
-                recommendation: "Stay hydrated. Use a humidifier. Avoid irritants like smoke.",
-                medications: [
-                    { name: "Cough Syrup", dosage: "10ml every 6-8 hours as needed" }
-                ]
-            },
-            "diarrhea": {
-                description: "Possible gastrointestinal infection or food intolerance",
-                recommendation: "Stay hydrated with oral rehydration solutions. Avoid dairy and fatty foods.",
-                medications: [
-                    { name: "ORS Sachet", dosage: "1 sachet in 1L water, drink as needed" },
-                    { name: "Flagyl", dosage: "400mg every 8 hours for 5 days (if bacterial)" }
-                ]
-            },
-            "malaria": {
-                description: "Possible malaria infection (common in endemic areas)",
-                recommendation: "Rest and stay hydrated. Seek medical attention if symptoms worsen.",
-                medications: [
-                    { name: "Coartem", dosage: "4 tablets twice daily for 3 days" },
-                    { name: "Paracetamol", dosage: "500mg every 6 hours for fever" }
-                ]
+            symptomWeights: {
+                'chest pain': 0.9,
+                'difficulty breathing': 0.95,
+                'severe headache': 0.85,
+                'high fever': 0.8,
+                'fainting': 0.9,
+                'severe abdominal pain': 0.85,
+                'headache': 0.4,
+                'fever': 0.5,
+                'cough': 0.3,
+                'sore throat': 0.3,
+                'nausea': 0.4,
+                'fatigue': 0.2,
+                'runny nose': 0.1,
+                'sneezing': 0.1,
+                'dizziness': 0.5,
+                'body aches': 0.4
             }
         };
 
@@ -2558,11 +2860,7 @@
                 }
             });
             
-            // Clear form
-            document.getElementById('patientName').value = '';
-            document.getElementById('appointmentDate').value = '';
-            document.getElementById('appointmentTime').value = '';
-            document.getElementById('appointmentReason').value = '';
+            // Clear form if open
             document.getElementById('doctorBookingForm').style.display = 'none';
         });
 
@@ -2583,59 +2881,83 @@
             }
         });
 
+        // Add symptom tags to input
+        document.querySelectorAll('.symptom-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                const symptom = tag.getAttribute('data-symptom');
+                const symptomsInput = document.getElementById('symptomsInput');
+                symptomsInput.value += (symptomsInput.value ? ', ' : '') + symptom;
+            });
+        });
+
         document.getElementById('analyzeSymptomsBtn').addEventListener('click', function() {
-            const symptoms = document.getElementById('symptomsInput').value.trim().toLowerCase();
+            const symptoms = document.getElementById('symptomsInput').value.trim();
             
             if (!symptoms) {
-                alert("Please describe your symptoms");
+                alert('Please describe your symptoms before analyzing.');
                 return;
             }
             
-            // Simple AI analysis - in a real app this would be more sophisticated
-            let matchedCondition = null;
-            let matchedMedications = [];
+            // Show loading indicator
+            document.querySelector('.loading').style.display = 'block';
+            document.getElementById('prescriptionResult').style.display = 'none';
             
-            // Check for known symptoms in our database
-            for (const [key, value] of Object.entries(symptomDatabase)) {
-                if (symptoms.includes(key)) {
-                    matchedCondition = value;
-                    break;
+            // Simulate AI processing time
+            setTimeout(() => {
+                document.querySelector('.loading').style.display = 'none';
+                document.getElementById('prescriptionResult').style.display = 'block';
+                
+                // Analyze symptoms and generate response
+                const analysis = analyzeSymptoms(symptoms);
+                
+                // Update UI with analysis results
+                document.getElementById('prescriptionText').innerHTML = analysis.assessment;
+                document.getElementById('severityLevel').textContent = analysis.severity;
+                document.getElementById('severityLevel').className = 'severity-value severity-' + analysis.severity.toLowerCase();
+                
+                // Display condition probabilities
+                const conditionProbabilities = document.getElementById('conditionProbabilities');
+                conditionProbabilities.innerHTML = '';
+                if (analysis.probabilities && analysis.probabilities.length > 0) {
+                    analysis.probabilities.forEach(prob => {
+                        const probItem = document.createElement('div');
+                        probItem.innerHTML = `
+                            <div class="probability-label">
+                                <span>${prob.condition}</span>
+                                <span class="probability-value">${prob.probability}%</span>
+                            </div>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${prob.probability}%"></div>
+                            </div>
+                        `;
+                        conditionProbabilities.appendChild(probItem);
+                    });
                 }
-            }
-            
-            const resultElement = document.getElementById('prescriptionResult');
-            const prescriptionText = document.getElementById('prescriptionText');
-            const recommendedMeds = document.getElementById('recommendedMeds');
-            
-            if (matchedCondition) {
-                prescriptionText.innerHTML = `
-                    <p><strong>Condition:</strong> ${matchedCondition.description}</p>
-                    <p><strong>Recommendation:</strong> ${matchedCondition.recommendation}</p>
-                `;
                 
-                recommendedMeds.innerHTML = '<strong>Recommended Medications:</strong><ul style="margin-top:8px;">';
-                matchedCondition.medications.forEach(med => {
-                    recommendedMeds.innerHTML += `<li>${med.name} - ${med.dosage}</li>`;
+                // Display recommended actions
+                const recommendedActions = document.getElementById('recommendedActions');
+                recommendedActions.innerHTML = '';
+                analysis.actions.forEach(action => {
+                    const actionItem = document.createElement('div');
+                    actionItem.className = 'med-item';
+                    actionItem.innerHTML = `<div>${action}</div>`;
+                    recommendedActions.appendChild(actionItem);
                 });
-                recommendedMeds.innerHTML += '</ul>';
-            } else {
-                prescriptionText.innerHTML = `
-                    <p>Based on your symptoms, we recommend:</p>
-                    <ul>
-                        <li>Rest and hydration</li>
-                        <li>Monitoring your symptoms</li>
-                        <li>Consulting a healthcare professional if symptoms persist or worsen</li>
-                    </ul>
-                    <p>For general discomfort, you might consider:</p>
-                `;
                 
-                recommendedMeds.innerHTML = '<ul>';
-                recommendedMeds.innerHTML += '<li>Paracetamol for pain/fever</li>';
-                recommendedMeds.innerHTML += '<li>Antihistamine for allergies</li>';
-                recommendedMeds.innerHTML += '</ul>';
-            }
-            
-            resultElement.classList.add('active');
+                // Display recommended medications
+                const recommendedMeds = document.getElementById('recommendedMeds');
+                recommendedMeds.innerHTML = '';
+                analysis.medications.forEach(med => {
+                    const medItem = document.createElement('div');
+                    medItem.className = 'med-item';
+                    medItem.innerHTML = `
+                        <div class="med-name">${med.name}</div>
+                        <div class="med-dosage">${med.dosage}</div>
+                    `;
+                    recommendedMeds.appendChild(medItem);
+                });
+                
+            }, 2500); // Simulate 2.5 seconds of processing
         });
 
         document.getElementById('addToCartBtn').addEventListener('click', function() {
@@ -2694,6 +3016,94 @@
                 alert("No specific medications were recommended for your symptoms");
             }
         });
+
+        // Advanced symptom analysis function
+        function analyzeSymptoms(symptomsText) {
+            const text = symptomsText.toLowerCase();
+            let severityScore = 0;
+            let matchedConditions = [];
+            
+            // Calculate severity based on symptom weights
+            for (const [symptom, weight] of Object.entries(medicalDatabase.symptomWeights)) {
+                if (text.includes(symptom)) {
+                    severityScore += weight;
+                }
+            }
+            
+            // Determine severity level
+            let severity = 'Low';
+            if (severityScore >= 3) severity = 'High';
+            else if (severityScore >= 1.5) severity = 'Moderate';
+            
+            // Match symptoms to conditions
+            for (const [condition, data] of Object.entries(medicalDatabase.conditions)) {
+                let matchScore = 0;
+                let totalWeight = 0;
+                
+                data.symptoms.forEach(symptom => {
+                    if (text.includes(symptom)) {
+                        const weight = medicalDatabase.symptomWeights[symptom] || 0.3;
+                        matchScore += weight;
+                    }
+                    totalWeight += medicalDatabase.symptomWeights[symptom] || 0.3;
+                });
+                
+                const probability = Math.min(95, Math.round((matchScore / totalWeight) * 100));
+                
+                if (probability > 20) {
+                    matchedConditions.push({
+                        condition: condition.charAt(0).toUpperCase() + condition.slice(1),
+                        probability: probability,
+                        data: data
+                    });
+                }
+            }
+            
+            // Sort by probability (highest first)
+            matchedConditions.sort((a, b) => b.probability - a.probability);
+            
+            // Get top conditions (max 3)
+            const topConditions = matchedConditions.slice(0, 3);
+            
+            // Generate assessment based on top condition
+            let assessment = '';
+            let actions = [];
+            let medications = [];
+            
+            if (topConditions.length > 0) {
+                const primaryCondition = topConditions[0];
+                assessment = `Based on your symptoms, our advanced analysis suggests you may be experiencing ${primaryCondition.condition}. ${primaryCondition.data.description}`;
+                actions = primaryCondition.data.actions;
+                medications = primaryCondition.data.medications;
+                
+                // Add emergency advice for high severity
+                if (severity === 'High') {
+                    assessment += ' Given the severity of your symptoms, we strongly recommend consulting a healthcare professional as soon as possible.';
+                    actions.unshift('Seek medical attention promptly');
+                }
+            } else {
+                // Default response if no specific conditions matched
+                assessment = 'Based on your symptoms, our analysis suggests a mild condition that is likely self-limiting. The recommendations below are general wellness advice that may help alleviate your symptoms. If symptoms persist or worsen, consult a healthcare professional.';
+                actions = [
+                    'Get adequate rest and sleep',
+                    'Maintain good hydration with water and electrolyte solutions',
+                    'Eat nutritious, easy-to-digest foods',
+                    'Monitor your symptoms for any changes'
+                ];
+                medications = [
+                    { name: 'Multivitamin', dosage: 'Once daily to support immune function' },
+                    { name: 'Zinc supplements', dosage: 'As directed on package to potentially shorten duration of symptoms' }
+                ];
+            }
+            
+            return {
+                severity,
+                assessment,
+                probabilities: topConditions,
+                actions,
+                medications
+            };
+        }
 
         // ===== CONGRATULATION MESSAGE =====
         function showCongratsMessage() {
@@ -2771,35 +3181,36 @@
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             // Return button for nurse booking
-document.getElementById('backFromNurseBtn').addEventListener('click', function() {
-    document.getElementById('bookNurseScreen').classList.add('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
-    
-    // Reset nav to dashboard
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-screen') === 'dashboard') {
-            btn.classList.add('active');
-        }
-    });
-});
+            document.getElementById('backFromNurseBtn').addEventListener('click', function() {
+                document.getElementById('bookNurseScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                
+                // Reset nav to dashboard
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-screen') === 'dashboard') {
+                        btn.classList.add('active');
+                    }
+                });
+            });
 
-// Return button for doctor booking
-document.getElementById('backFromDoctorBtn').addEventListener('click', function() {
-    document.getElementById('bookDoctorScreen').classList.add('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
-    
-    // Reset nav to dashboard
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-screen') === 'dashboard') {
-            btn.classList.add('active');
-        }
-    });
-    
-    // Clear form if open
-    document.getElementById('doctorBookingForm').style.display = 'none';
-});
+            // Return button for doctor booking
+            document.getElementById('backFromDoctorBtn').addEventListener('click', function() {
+                document.getElementById('bookDoctorScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                
+                // Reset nav to dashboard
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-screen') === 'dashboard') {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Clear form if open
+                document.getElementById('doctorBookingForm').style.display = 'none';
+            });
+            
             // Set dashboard as default active screen
             document.querySelector('[data-screen="dashboard"]').classList.add('active');
             
